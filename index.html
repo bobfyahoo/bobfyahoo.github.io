@@ -1,0 +1,139 @@
+<!DOCTYPE html> 
+<html data-ng-app="bfAngApp" data-ng-csp lang="en"> 
+  <head> 
+    <title>Bob Ferrero</title> 
+    <meta charset="utf-8"> 
+    <meta name="author" content="Bob Ferrero" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="description" content="adoptable pets, pet searches, find a pet, petfinder, bobferrero.com, oygavult.com, bfapp.com" />
+	  <meta name="keywords" content="adoptable pets, pet searches, find a pet, petfinder, bobferrero.com, oygavult.com, bfapp.com" />    
+          
+    <link href="//stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular-csp.css">
+    <link rel="stylesheet" href="app.css">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <base href="/">
+  </head> 
+  <body data-ng-controller="Index">
+      
+  <header>
+    <nav class="navbar navbar-default">
+		  <div class="container-fluid">
+			  <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" 
+              data-toggle="collapse" data-target="#navbar" 
+              aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+      		<a class="navbar-brand" href="./" id="brand">BF</a>
+			  </div>
+        <div class="navbar-collapse collapse" id="navbar">
+      		<ul class="nav navbar-nav">
+			      <li><a href="./" aria-controls="home" id="home">Home</a></li>
+
+				    <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  id="petmenu" aria-haspopup="true" aria-expanded="false">Adoptable Pets <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="pet selection menu">
+                <li><a data-ng-href="pets/shelters" id="shelterfindMenu">Shelters</a></li>
+                <li role="separator" class="divider"></li>
+                <li data-ng-repeat="opt in petmenu track by opt.value">
+                  <a data-ng-href="pets/{{opt.value}}" id="petmenu{{opt.name}}" data-ng-model="animal">{{opt.name}}</a>
+                </li>
+              </ul>
+      			</li>
+          </ul>
+
+			  </div>
+		  </div>
+  	</nav>
+
+  </header>
+
+  <div class="container-fluid" role="main">
+    <div data-ng-view>&nbsp;</div>
+
+    <div class="ng-hide">
+      <div>$location.path() = {{$location.path()}}</div>
+      <div>$route.current.templateUrl = {{$route.current.templateUrl}}</div>
+      <div>$route.current.params = {{$route.current.params}}</div>
+      <div>$routeParams = {{$routeParams}}</div>
+      <div data-ng-controller="PetController">
+        <div>location = {{location}}</div>
+        <div>animal = {{animal}}</div>
+      </div>
+    </div>
+  </div>
+      
+  <footer class="footer">
+    <div class="container-fluid" >
+        <ul class="label container-fluid">
+		      <li class="label">
+            <a href="./">January 2016</a>
+          </li>
+		      <li class="label pull-right" >
+            <a href="./terms" alt="Terms & Conditions, Privacy Policy">
+              <span class="glyphicon glyphicon-book footer-glyphicon" 
+                    title="Terms & Conditions, Privacy Policy"></span></a>            
+          </li>
+		      <li class="label pull-right">
+            <a href="//github.com/bfhike" id="footerGithub">
+              <img src="images/GitHub-Mark-32px.png" alt="GitHub Pages" title="GitHub Pages"
+                    height="24" width="24"/></a>
+            <a href="//github.com/angular" id="footerAngular">
+              <img src="images/AngularJS-Shield-small.png" alt="Angular.js" title="Angular.js" 
+                    height="24" width="24"/></a>
+            <a href="//github.com/jquery" id="footerJQuery">
+                <img src="images/jquery-logo.png" alt="JQuery" title="JQuery" 
+                    height="24" width="24"/></a>
+            <a href="//github.com//twbs/bootstrap" id="footerBootstrap">
+                <img src="images/bootstrap-solid.svg" alt="Bootstrap" title="Bootstrap" 
+                  height="24" width="24"/></a>
+          </li>
+	      </ul>
+    </div>
+  </footer>  
+        
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> 
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.js"></script> 
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular-route.js"></script> 
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular-cookies.js"></script> 
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular-sanitize.js"></script> 
+  <script src="app.js"></script>
+  <script src="js/pet/PetController.js"></script>
+  <script src="js/pet/PetFacetControllers.js"></script>
+  <script src="js/pet/PetShelterController.js"></script>
+  <script src="js/pet/PetMapController.js"></script>
+  <script src="js/pet/PetCache.js"></script>
+  <script src="js/pet/PetFilter.js"></script>
+  <script src="js/pet/PetFinder.js"></script>
+  <script src="js/pet/PetModel.js"></script>
+  <script src="js/pet/PetFacet.js"></script>
+  <script src="js/ImageArray.js"></script>
+  <script src="js/IndexController.js"></script>
+  <script src="js/GoogleApi.js"></script>
+  <script src="js/IndexController.js"></script>
+  <script src="js/plugins.js"></script>
+<!-- 
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-53554428-1', 'auto');
+    ga('require', 'linkid', 'linkid.js');
+    ga('send', 'pageview');
+  </script> -->
+
+  <!-- <iframe class="ng-hide" src="//jpets.herokuapp.com/rhc/api/v1/pet/pet.find?&count=5&location=92618&animal=dog"></iframe> -->
+  </body> 
+</html> 

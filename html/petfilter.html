@@ -1,0 +1,37 @@
+  <div class="panel">
+    <div class="dropdown">
+      <button class="btn btn-info btn-xs dropdown-toggle" type="button" id="{{name}}menu" 
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        By {{displayName}}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="{{name}}menu">
+        <!-- clear all button -->
+        <li class="btn-group">
+          <button type="button" class="btn btn-link btn-xs" data-ng-model="facets.value"
+                    data-ng-click="clearSelections(facets.value);">clear all selections 
+            <span class="glyphicon glyphicon-remove-circle"></span>
+          </button> 
+        </li>
+        <!-- clear individual selections -->
+        <li class="btn-group" data-ng-repeat="opt in facets.value | orderBy:orderby track by $index">
+               <!-- dont use filter: option of ngrepeat because the menu doesnt update when a selection is made,
+                    use ng-show instead because it will display when a selection is made from the menu below -->
+          <button type="button" class="btn btn-link btn-xs" data-ng-model="opt"
+                    data-ng-show="opt.selected" data-ng-click="opt.selected = null;">
+            {{opt.name}} <span class="glyphicon glyphicon-remove-circle"></span>
+          </button>
+        </li>
+        <li role="separator" class="divider"></li>
+        <!-- individual selections -->
+        <li data-ng-repeat="opt in facets.value | orderBy:orderby track by $index">
+           <label class="col-lg-11 col-lg-offset-1" for="{{name}}filter{{opt}}">
+               <input id="{{name}}filter{{opt}}" type="checkbox" value="" 
+                      aria-label="{{name}} filter" data-ng-true-value="true"
+                      data-ng-false-value="false" data-ng-model="opt.selected"/>
+               <span> {{opt.name}} </span><span class="badge">{{opt.count}}</span>
+          </label>
+        </li>
+      </ul>
+    </div>
+  </div>

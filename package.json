@@ -1,0 +1,37 @@
+{
+  "name": "bf-github-sites",
+  "private": true,
+  "version": "0.0.0",
+  "description": "bobferrero github pages website",
+  "repository": "https://github.com/bfhike/bfhike.github.io",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "^1.8.8",
+    "chromedriver": "^2.43.1",
+    "ecstatic": "^4.1.2",
+    "http-server": "^0.11.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.8",
+    "karma-junit-reporter": "^2.0.1",
+    "protractor": "^5.4.1"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "update-deps": "npm update",
+    "postupdate-deps": "bower update",
+    "prestart": "npm install",
+    "start": "http-server -S -K testing/key.pem -C testing/cert.pem --cors -a www.example.com -p 443 -c-1 ./",
+    "pretest": "npm install;clear",
+    "test": "karma start karma.conf.js",
+    "test-single-run": "karma start karma.conf.js --single-run",
+    "preupdate-webdriver": "npm install",
+    "update-webdriver": "webdriver-manager update",
+    "preprotractor": "npm run update-webdriver;clear",
+    "protractor-debug": "node --inspect-brk=9229 protractor e2e-tests/protractor.conf.js",
+    "protractor": "protractor e2e-tests/protractor.conf.js",
+    "update-index-async": "node -e \"var fs=require('fs'),indexFile='index-async.html',loaderFile='bower_components/angular-loader/angular-loader.min.js',loaderText=fs.readFileSync(loaderFile,'utf-8').split(/sourceMappingURL=angular-loader.min.js.map/).join('sourceMappingURL=bower_components/angular-loader/angular-loader.min.js.map'),indexText=fs.readFileSync(indexFile,'utf-8').split(/\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/).join('//@@NG_LOADER_START@@\\n'+loaderText+'    //@@NG_LOADER_END@@');fs.writeFileSync(indexFile,indexText);\""
+  }
+}

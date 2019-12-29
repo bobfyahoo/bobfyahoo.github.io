@@ -1,0 +1,27 @@
+#!/bin/sh
+## there are 2 ways
+# 1. make changes to bikehike.github.io
+# 2. cd into other repos
+# 3. git fetch ~/bitbucket/bikehike.github.io master:bikehike.github.io
+# 4. this creates a branch called bikehike.github.io from the master branch of ~/bitbucket/bikehike.github.io
+# 5. then merge it into our master branch with "git checkout master; git merge bikehike.github.io;"
+
+## 2nd way
+# 1. git remote add localbikehike ~/bitbucket/bikehike.github.io
+# 2. git fetch localbikehike
+# 3. git checkout master
+# 4. git merge localbikehike/master
+# 5. not sure if this works but i think so
+exit 0
+
+
+cd ~/bitbucket/bfhike.github.io
+git fetch bobferrero-local
+git merge bobferrero-local/master
+git push
+
+cd ~/bitbucket/bikehike.github.io
+git fetch bobferrero-local
+git merge bobferrero-local/master
+git push
+

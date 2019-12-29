@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>Github pages friendly redirect for angular routes html5mode</title>
+    <meta charset="utf-8"> 
+    <meta name="author" content="Bob Ferrero" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="adoptable pets, pet searches, find a pet, petfinder, bobferrero.com, GitHub Pages, Angular, JQuery, Bootstrap" />
+	  <meta name="keywords" content="adoptable pets, pet searches, find a pet, petfinder, bobferrero.com, GitHub Pages, Angular, JQuery, Bootstrap" />    
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+
+    <script type="text/javascript">
+      /* from https://gist.github.com/jlong/2428561
+      parser.protocol; // => "http:"
+      parser.hostname; // => "example.com"
+      parser.port;     // => "3000"
+      parser.pathname; // => "/pathname/"
+      parser.search;   // => "?search=test"
+      parser.hash;     // => "#hash"
+      parser.host;     // => "example.com:3000"
+      */
+      var parser = document.createElement('a');
+      parser.href = document.referrer;
+      var url = '/#' + parser.pathname + parser.search + parser.hash;
+      window.location = url;
+    </script>
+  </head>
+	<body bgcolor="#ffffff">
+	  <center>Clicking refresh could reset the web page information.</center>
+	</body>
+</html>
+

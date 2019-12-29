@@ -1,0 +1,44 @@
+<!-- bootstrap modal window displayed by bootstrap/jquery, content by angular - 
+      must be in the controller scope -->
+<div id="modalWindow" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-4">
+              <h4 class="modal-title">{{modal.pet(modal.petIndex).name.$t}}</h4></div>
+          <div class="col-md-4">
+              <h4 class="modal-title">{{modal.pet(modal.petIndex).contact | address}}</h4></div>
+          <div class="col-md-4">
+              <div class="pull-left" style="word-break: break-all;text-wrap: normal;">
+                <h5 class="modal-title" >{{modal.pet(modal.petIndex).contact.phone.$t}}</h5>
+              </div>
+              <div class="pull-right">
+              <button type="button" class="close" data-ng-click="hideModal()" id="modalClose"
+                    data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body carousel">
+        <img id="modalImage" class="img-responsive img-rounded petimage" 
+              data-ng-src="{{modal.current(modal.petIndex)['$t']}}" 
+              data-ng-click="modal.next(modal.petIndex)" alt="no big image"/>
+        <span data-ng-if="modal.hasMultiple(modal.petIndex)" data-slide="prev" id="modalPrev"
+              data-ng-click="modal.prev(modal.petIndex)" class="left carousel-control" role="button" >
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </span>
+        <span data-ng-if="modal.hasMultiple(modal.petIndex)" data-slide="next" id="modalNext"
+              data-ng-click="modal.next(modal.petIndex)" class="right carousel-control" role="button">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </span>
+      </div>
+      <div class="modal-body">
+          <pre class="description">{{modal.pet(modal.petIndex).description.$t}}</pre>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

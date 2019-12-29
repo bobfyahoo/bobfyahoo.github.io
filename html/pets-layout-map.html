@@ -1,0 +1,21 @@
+
+<div data-ng-controller="PetMapBaseController">
+      <!-- facets -->
+      <div class="container-fluid panel" data-ng-init="showfilters=false;">
+          <span class="btn btn-info btn-xs" data-ng-click="showfilters=!showfilters;">Filter Results
+            <span class="glyphicon glyphicon-filter"></span>
+          </span>
+      </div>
+      <div data-ng-class="{'col-md-3':showfilters, '':!showfilters}" 
+            data-ng-show="showfilters" data-ng-include="'html/petfilters.html'"></div>
+
+      <!-- pet search results -->
+      <div data-ng-class="{'col-md-9':showfilters, 'col-md-12':!showfilters}">
+        <div class="" data-ng-cloak data-ng-controller="PetMapController">
+          <pet-map id="petMap" class="layout-map-petmap" data-init-map="initMap" 
+                   data-ng-model="map" data-locations="pets">
+          </pet-map>
+        </div>
+        <!-- right column end -->            
+      </div>
+</div>

@@ -1,0 +1,11 @@
+<div data-ng-controller="PetFacetController">
+  <div class="panel btn btn-link btn-xs" data-ng-click="clearAll();">clear all filters
+    <span class="glyphicon glyphicon-remove-circle"></span>
+  </div>
+  <div data-ng-controller="AgesFilterController" data-ng-include="'html/petfilter.html'"></div>
+  <div data-ng-controller="SizesFilterController" data-ng-include="'html/petfilter.html'"></div>
+  <div data-ng-controller="LocationsFilterController" data-ng-include="'html/petfilter.html'"></div>
+  <div data-ng-controller="GendersFilterController" data-ng-include="'html/petfilter.html'"></div>
+  <div data-ng-controller="BreedsFilterController" data-ng-include="'html/petfilter.html'"></div>
+  <div data-ng-controller="AttributesFilterController" data-ng-include="'html/petfilter.html'"></div>
+</div>

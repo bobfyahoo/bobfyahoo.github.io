@@ -1,0 +1,105 @@
+
+            <!-- facets -->
+            <div class="container-fluid panel" data-ng-init="showfilters=false;">
+               <span class="btn btn-info btn-xs" data-ng-click="showfilters=!showfilters;">Filter Results
+                 <span class="glyphicon glyphicon-filter"></span>
+               </span>
+            </div>
+            <div data-ng-class="{'col-md-3':showfilters, '':!showfilters}" 
+                 data-ng-show="showfilters" data-ng-include="'html/petfilters.html'"></div>
+
+            <!-- pet search results -->
+            <div data-ng-class="{'col-md-9':showfilters, 'col-md-12':!showfilters}">
+              <div class="panel" data-ng-cloak> 
+                <div class="row panel" data-ng-init="petIndex = $index;init(pet);"
+                     data-ng-repeat="pet in pets.value | filter: adoptableStatus | orderBy: 'distance'"
+                     data-ng-show="checkFilters(pet);" >
+                    <!-- column start --> 
+                    <div data-ng-class="{'col-md-4':showfilters, 'col-md-5':!showfilters}">
+                      <!-- pet image on each row - showing size=x -->
+                      <div data-ng-init="petImages.init(pet, petIndex, photo)" 
+                           data-ng-repeat="photo in pet.photos | filter: 'small' : true">
+                        <!-- show one image at a time, rotated by angular events -->
+                        <div data-ng-if="$index == 0" class="carousel">
+                          <img id="petimage{{pet.organization_id}}{{petIndex}}" 
+                               data-ng-src="{{petImages.current(petIndex)['$t']}}"
+                               data-ng-click="showModal(pet);"
+                               class="img-responsive img-rounded petimage" alt="{{pet.name}}" />
+                        </div>
+                        <div data-ng-if="$index == 1">
+                          <span data-slide="prev" data-ng-click="petImages.prev(petIndex)"
+                                id="previmage{{pet.organization_id}}{{petIndex}}"
+                            class="left carousel-control" role="button" >
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                          </span>
+                          <span data-slide="next" data-ng-click="petImages.next(petIndex)"
+                                id="nextimage{{pet.organization_id}}{{petIndex}}"
+                            class="right carousel-control" role="button">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>                      
+                    <!-- column end --> 
+                    <!-- column start --> 
+                    <div data-ng-class="{'col-md-2':showfilters, 'col-md-3':!showfilters}">
+                        <h4 title="{{pet.name}}">{{pet.name.substring(0,20);}}</h4> 
+                        <p><span>{{pet.age}}</span>
+                           <span>{{pet.gender}}</span>,
+                           <span>{{pet.size}}-sized</span></span><span ng-if="pet.breeds.primary">, </span>
+                           <span>{{pet.breeds | breeds}}</span><span ng-if="pet.attributes.spayed_neutered ">, </span>
+                           <span>{{pet.attributes | attributes }}</span><span ng-if="pet.environment.dogs || pet.environment.cats || pet.environment.children">, </span>
+                           <span>{{pet.environment | environment }}</span><span ng-if="pet.tags.length">, </span>
+                           <span>{{pet.tags | arrayjoin }}</span>
+                        </p>
+                        <div><a id="mailto{{pet.organization_id}}{{petIndex}}" 
+                                href="mailto:{{pet.contact.email}}" 
+                                data-toggle="tooltip" data-placement="top" target="_blank"
+                                title="{{pet.contact.email}}">E-Mail</a> or 
+                             <a id="tel{{pet.organization_id}}{{petIndex}}"
+                                href="tel:{{pet.contact.phone}}" target="_blank"
+                                data-toggle="tooltip" data-placement="right" title="{{pet.contact.phone}}">Call Now!</a>
+                        </div>
+                        <div>
+                          <!-- div>{{pet.organization_id | shelters}}</div -->
+                          <h5>
+                            <div>{{pet.contact.address.address1}}</div>
+                            <div ng-if="pet.contact.address.address2">{{pet.contact.address.address2}}</div>
+                            <div>
+                              <span>{{pet.contact.address.city}}, </span>
+                              <span>{{pet.contact.address.state}} </span>
+                              <span>{{pet.contact.address.postcode}}</span>
+                            </div>
+                          </h5>
+                          <h6>
+                             <div>updated {{pet.status_changed_at | date }}</div>
+                             <div>pet id {{pet.id}}</div>
+                             <div>
+                                <a id="mapit{{pet.organization_id}}{{petIndex}}" target="_blank" 
+                                   href="https://www.google.com/maps/place/{{pet.contact.address.address1}}+{{pet.contact.address.city}}+{{pet.contact.address.state}}+{{pet.contact.address.postcode}}">map it</a>
+                             </div>
+                           </h6>
+                        </div>
+                    </div>                     
+                    <!-- column end -->                   
+                    <!-- column start --> 
+                    <div data-ng-class="{'col-md-3':showfilters, 'col-md-4':!showfilters}" 
+                         data-ng-click="showModal(pet);" id="petDesc{{pet.organization_id}}{{petIndex}}">
+                        <!-- if there is no description, the description filter will return nothing -->
+                        <!-- if there is no description, the morephotos filter will return an array of photos-->
+                        <p title="{{pet.description}}">{{pet.description | description}}</p> 
+                        <div ng-if="!pet.description">
+                          <img class="caption img-rounded" id="petDescPhoto{{pet.organization_id}}{{petIndex}}"
+                               data-ng-repeat="photo in pet.photos | filter: 'small' : true" 
+                               data-ng-click="showModal(pet);" data-ng-src="{{photo.small}}" alt="{{pet.name}}" /> 
+                        </div>
+                    </div>                     
+                    <!-- column end -->
+                   
+                </div>
+                <!-- panel end -->
+             </div>
+             <!-- right column end -->            
+            </div>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>rhc geocoding tester</title>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.js"></script> 
+  <script src="js/GoogleApi.js"></script> 
+</head>
+<body ng-app="App">
+  <div ng-controller="Controller">
+      <div style="margin: 1em;"><span>zip: </span><span>{{zip}}</span></div>
+      <div><div>geocoded response: </div><span>{{geocoding}}</span></div>
+  </div>
+  <footer>
+      <script type="text/javascript">
+        (function (angular, navigator) {
+          'use strict';
+
+          angular.module('App', ['GoogleApi'])
+            .controller('Controller', ['$scope', 'googleApi', function ($scope, googleApi) {
+
+              // zipcode return from api
+              $scope.zip = null;
+              // entire response
+              $scope.geocoding = null;
+
+
+              var parseGeocodingResponse = function (results) {
+                $scope.geocoding = results;
+                for (var i = 0; i < results.length; i++) {
+                  for (var j = 0; j < results[i].address_components.length; j++) {
+                    if (results[i].address_components[j].types.indexOf('postal_code') > -1) {
+                      return results[i].address_components[j].short_name;
+                    }
+                  }
+                }
+              };
+
+              navigator.geolocation && navigator.geolocation.getCurrentPosition(function (position) {
+                googleApi.reverseGeocode({ 'lat': position.coords.latitude, 'lng': position.coords.longitude },
+                          function (response) {
+                            if (response && response.status == 200 &&
+                             response.data && response.data.results && response.data.results.length > 0) {
+                              $scope.zip = parseGeocodingResponse(response.data.results);
+                            }
+                          });
+              });
+
+
+            }]);
+
+        })(window.angular, window.navigator);
+    </script>
+  </footer>
+</body>
+</html>

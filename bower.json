@@ -1,0 +1,21 @@
+{
+  "name": "bf-github-sites",
+  "description": "bobferrero github pages websites",
+  "version": "0.0.0",
+  "homepage": "https://github.com/bfhike/bfhike.github.io",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.6.10",
+    "angular-route": "~1.6.10",
+    "angular-loader": "~1.6.10",
+    "angular-mocks": "~1.6.10",
+    "angular-cookies": "~1.6.10",
+    "angular-sanitize": "~1.6.10",
+    "html5-boilerplate": "^6.1.0",
+    "protractor": "^5.3.2"
+  },
+  "resolutions": {
+    "angular": "1.6.10"
+  }
+}

@@ -1,0 +1,81 @@
+
+            <!-- facets -->
+            <div class="container-fluid panel" data-ng-init="showfilters=false;">
+              <span class="btn btn-info btn-xs" data-ng-click="showfilters=!showfilters;">Filter Results
+                 <span class="glyphicon glyphicon-filter"></span>
+              </span>
+            </div>
+            <div data-ng-class="{'col-sm-2 col-md-2 col-lg-2':showfilters, 'hidden':!showfilters}" 
+                 data-ng-show="showfilters" data-ng-include="'html/petfilters.html'"></div>
+
+            <!-- pet search results -->
+            <div data-ng-class="{'col-sm-10 col-md-10 col-lg-10':showfilters, 
+                                 'col-sm-12 col-md-12 col-lg-12':!showfilters}">
+              <div class="" data-ng-cloak> 
+                <div class="" data-ng-init="petIndex = $index; init(pet);"
+                     data-ng-repeat="pet in pets.value | filter: adoptableStatus | orderBy: '-lastUpdate.$t'"
+                     data-ng-show="checkFilters(pet);">
+                    <!-- column start --> 
+                    <div class="" data-ng-class="{'col-sm-5 col-md-5 col-lg-3':showfilters, 
+                                                  'col-sm-4 col-md-4 col-lg-3':!showfilters }" >
+                      <div class="panel layout-thumbnail-box" >
+                      <!-- pet image on each row - showing size=x -->
+                          <div data-ng-init="petImages.init(pet, petIndex, photo)" 
+                               data-ng-repeat="photo in pet.media.photos.photo | filter: {'@size':'x'} : true |limitTo: 1" class="thumbnail">
+                            <!-- show one image at a time, rotated by angular events -->
+                              <img id="petimage{{pet.shelterId.$t}}{{petIndex}}"
+                                   data-ng-src="{{petImages.current(petIndex)['$t']}}"
+                                   data-ng-click="showModal(pet);"
+                                   class="layout-thumbnail-image" alt="{{pet.name.$t}}"/>
+                              <div class="caption layout-thumbnail-caption">
+                                  <h4 title="{{pet.name.$t}}">{{pet.name.$t.substring(0,20);}}</h4> 
+                                  <p><span>{{pet.age.$t}}</span>
+                                     <span>{{pet.sex.$t | sexes}}</span>,
+                                     <span>{{pet.size.$t | sizes }}</span></span><span ng-if="pet.breeds.breed">, </span>
+                                     <span>{{pet.breeds.breed | breeds}}</span><span ng-if="pet.options.option">, </span>
+                                     <span>{{pet.options.option | options }}</span>
+                                  </p>
+                                  <div><a id="mailto{{pet.shelterId.$t}}{{petIndex}}" 
+                                          href="mailto:{{pet.contact.email.$t}}" 
+                                          data-toggle="tooltip" data-placement="top" target="_blank"
+                                          title="{{pet.contact.email.$t}}">E-Mail</a> or 
+                                       <a id="tel{{pet.shelterId.$t}}{{petIndex}}"
+                                          href="tel:{{pet.contact.phone.$t}}" target="_blank"
+                                          data-toggle="tooltip" data-placement="right" title="{{pet.contact.phone.$t}}">Call Now!</a>
+                                  </div>
+                                  <div>
+                                    <!-- div>{{pet.shelterId.$t | shelters}}</div -->
+                                    <h5>
+                                      <div>{{pet.contact.address1.$t}}</div>
+                                      <div>
+                                        <span>{{pet.contact.city.$t}}, </span>
+                                        <span>{{pet.contact.state.$t}} </span>
+                                        <span>{{pet.contact.zip.$t}}</span>
+                                      </div>
+                                    </h5>
+                                    <h6>
+                                       <div>updated {{pet.lastUpdate.$t | date }}</div>
+                                       <div>pet id {{pet.shelterPetId.$t}}</div>
+                                       <div>
+                                          <a id="mapit{{pet.shelterId.$t}}{{petIndex}}" target="_blank" 
+                                             href="https://www.google.com/maps/place/{{pet.contact.address1.$t}}+{{pet.contact.city.$t}}+{{pet.contact.state.$t}}+{{pet.contact.zip.$t}}">map it</a>
+                                       </div>
+                                     </h6>
+                                  </div>
+                              </div>                     
+                              <!-- caption end -->                            
+                          </div>
+                      <!-- caption start --> 
+
+                     </div>       
+                    </div>                      
+                    <!-- column end --> 
+
+           
+                   
+                   
+                </div>
+                <!-- panel end -->
+             </div>
+             <!-- right column end -->            
+            </div>

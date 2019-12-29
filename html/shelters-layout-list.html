@@ -1,0 +1,35 @@
+    <div class="panel" data-ng-cloak> 
+        <div data-ng-init="index = $index" data-ng-repeat="shelter in shelters.value">
+            <!-- column start --> 
+            <div class="col-sm-3" style="height: 200px;">
+                <h5 title="id: {{shelter.id.$t}}" data-toggle="tooltip">{{shelter.name.$t}}</h5> 
+                <div>
+                  <h5>
+                    <div>
+                      <a id="mailto{{shelter.id.$t}}" 
+                          href="mailto:{{shelter.email.$t}}" 
+                          data-toggle="tooltip" data-placement="top" target="_blank"
+                          title="{{shelter.email.$t}}">E-Mail</a> or 
+                      <a id="tel{{shelter.id.$t}}"
+                          href="tel:{{shelter.phone.$t}}" target="_blank"
+                          data-toggle="tooltip" data-placement="right" title="{{shelter.phone.$t}}">Call Now!</a>
+                    </div>
+                    <div>{{shelter.address1.$t}}</div>
+                    <div data-ng-show="shelter.address2.$t">{{shelter.address2.$t}}</div>
+                    <div>
+                      <span>{{shelter.city.$t}}, </span>
+                      <span>{{shelter.state.$t}} </span>
+                      <span>{{shelter.zip.$t}}</span>
+                    </div>
+                    <small>
+                    <div>
+                      <a id="mapit{{shelter.id.$t}}" target="_blank" data-toggle="tooltip" title="google map"
+                          href="https://www.google.com/maps/place/{{shelter.address1.$t}}+{{shelter.city.$t}}+{{shelter.state.$t}}+{{shelter.zip.$t}}">map it</a>
+                    </div>
+                    </small>
+                  </h5>
+                </div>  
+            </div>
+            <!-- column end -->                     
+        </div>
+    </div>

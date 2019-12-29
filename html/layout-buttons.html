@@ -1,0 +1,11 @@
+<div class="btn-group" role="group" aria-label="..." data-ng-init="layout=$parent.layout">
+  <button type="button" class="btn btn-info layout-list" data-ng-class="{'active': layout.value=='list'}" 
+           data-ng-click="layout.value='list';">
+    <span class="glyphicon glyphicon-list"></button>
+  <button type="button" class="btn btn-info layout-thumb" data-ng-class="{'active': layout.value=='thumb'}" 
+          data-ng-click="layout.value='thumb';">
+    <span class="glyphicon glyphicon-th"></button>
+  <button type="button" class="btn btn-info layout-map" data-ng-class="{'active': layout.value=='map'}" 
+          data-ng-click="layout.value='map';">
+    <span class="glyphicon glyphicon-globe"></button>
+</div>

@@ -1,0 +1,56 @@
+        
+        <div class="container" data-ng-controller="PetController">
+           
+            <!-- pet search form -->
+            <div class="container" data-ng-controller="PetSearchController" data-ng-cloak>
+              <h3>Search for adoptable pets by City, State or Zip Code (US/Canada)</h3>
+              <div>
+                <p class="text-warning" data-ng-model="message"
+                    data-ng-show="message != undefined">{{message}}</p>
+              </div>
+              <form data-ng-submit="find()" name="searchForm">
+                <div class="row form-horizontal form-group panel">
+                    <div class="col-sm-4" >
+                        <input type="text" name="location" class="form-control location" autofocus="true"
+                               data-ng-model="location" 
+                               pattern="\d{5}|[,\w\s]{5,}" required="required"
+                               title="City, State or Zip code (US/Canada)"
+                               placeholder="City, State or Zip code (US/Canada)" />
+                    </div>
+                    <div class="col-sm-3">
+                        <select data-ng-options="t.value as t.name for t in animalSelector"
+                                data-ng-change="$location.path('pets/'+animal);" 
+                                data-ng-model="animal" class="form-control" >
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <button id="findPetsButton" class="btn btn-info"  
+                                title="Enter a 5-digit Zip Code and press" 
+                                data-ng-disabled="searchForm.location.$error.pattern">
+                          <span class="glyphicon glyphicon-search">
+                            <span data-role="spacer"> </span>Search</span>
+                          <img src="images/ajax-loader.gif" class="ng-hide" data-ng-show="showspinner"
+                                      alt="searching for pets"/>
+                        </button>
+                    </div>
+                    <div class="col-sm-3 col-sm-offset-1" data-ng-include="'html/layout-buttons.html'"></div>
+                </div>
+              </form>
+
+            </div>
+            
+            <a id="searchResults"> </a>
+            <div data-ng-include="'html/pets-layout-'+layout.value+'.html'"></div>
+            <div data-ng-cloak data-ng-include="'html/modal.html'"></div>
+
+        </div>
+<!-- 
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-53554428-1', 'auto');
+          ga('require', 'linkid', 'linkid.js');
+          ga('send', 'pageview');
+        </script> -->
