@@ -35,6 +35,7 @@ oygavult.com --> oygavult
 
 Development
 ====  
+nvm use 10 --- use node 10
 npm install  
 npm test  
 npm run protractor  
