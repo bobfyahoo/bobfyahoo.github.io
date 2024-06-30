@@ -36,7 +36,8 @@ oygavult.com --> oygavult
 Development
 ====  
 nvm use 10 --- use node 10
-npm install  
+nvm alias default 10
+npm ci ---- to install dependencies without updating packages  
 npm test  
 npm run protractor  
 npm start to run on port 443 with https://www.example.com  
