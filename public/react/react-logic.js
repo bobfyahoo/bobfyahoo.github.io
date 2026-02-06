@@ -1,4 +1,4 @@
-const { useState, useEffect } = React;
+const { useState } = React;
 
 const ReactTab = () => {
     const [view, setView] = useState('list'); // 'list' or 'form'

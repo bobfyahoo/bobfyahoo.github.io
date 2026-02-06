@@ -1,4 +1,4 @@
-const { createApp, reactive, computed } = Vue;
+const { reactive, computed } = Vue;
 
 const VueTab = {
     setup() {
