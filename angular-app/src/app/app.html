@@ -20,21 +20,21 @@
   } @else {
     <div class="card p-3">
       <div class="mb-2">
-        <label for="summaryInput" class="form-label">Summary</label>
+        <label for="summaryInput" class="form-label"><strong>Summary</strong></label>
         <input id="summaryInput" class="form-control" placeholder="Summary" [(ngModel)]="formModel().summary" required maxlength="50">
       </div>
       <div class="mb-2">
-        <label for="descriptionInput" class="form-label">Description</label>
+        <label for="descriptionInput" class="form-label"><strong>Description</strong></label>
         <textarea id="descriptionInput" class="form-control" placeholder="Description" [(ngModel)]="formModel().description" required maxlength="500"></textarea>
       </div>
       <div class="mb-3">
-        <label for="assigneeSelect" class="form-label">Assignee</label>
+        <label for="assigneeSelect" class="form-label"><strong>Assignee</strong></label>
         <select id="assigneeSelect" class="form-select" [(ngModel)]="formModel().assignee" required>
           @for (name of assignees; track name) { <option [value]="name">{{name}}</option> }
         </select>
       </div>
       <div class="mb-3">
-        <label for="statusSelect" class="form-label">Status</label>
+        <label for="statusSelect" class="form-label"><strong>Status</strong></label>
         <select id="statusSelect" class="form-select" [(ngModel)]="formModel().status" required>
           @for (s of statuses; track s) { <option [value]="s">{{s}}</option> }
         </select>

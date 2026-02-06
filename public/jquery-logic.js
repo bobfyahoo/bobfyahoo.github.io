@@ -12,21 +12,21 @@ const JQueryTab = {
             <button class="btn btn-primary mb-3" id="jq-add-btn">Add Ticket (jQuery)</button>
             <div id="jq-form" class="card p-3 mb-3 d-none" data-edit-id="">
                 <div class="mb-2">
-                    <label for="jq-summary" class="form-label">Summary</label>
+                    <label for="jq-summary" class="form-label"><strong>Summary</strong></label>
                     <input id="jq-summary" class="form-control" maxlength="50" required>
                 </div>
                 <div class="mb-2">
-                    <label for="jq-description" class="form-label">Description</label>
+                    <label for="jq-description" class="form-label"><strong>Description</strong></label>
                     <textarea id="jq-description" class="form-control" maxlength="500" required></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="jq-assignee" class="form-label">Assignee</label>
+                    <label for="jq-assignee" class="form-label"><strong>Assignee</strong></label>
                     <select id="jq-assignee" class="form-select" required>
                         ${assigneeOptions}
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="jq-status" class="form-label">Status</label>
+                    <label for="jq-status" class="form-label"><strong>Status</strong></label>
                     <select id="jq-status" class="form-select" required>
                         ${statusOptions}
                     </select>

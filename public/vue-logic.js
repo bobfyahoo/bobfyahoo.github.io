@@ -53,22 +53,22 @@ const VueTab = {
         </div>
         <form v-else @submit.prevent="save">
             <div class="mb-2">
-                <label for="summaryInput" class="form-label">Summary</label>
+                <label for="summaryInput" class="form-label"><strong>Summary</strong></label>
                 <input id="summaryInput" v-model="state.form.summary" class="form-control" maxlength="50" required>
             </div>
             <div class="mb-2">
-                <label for="descriptionInput" class="form-label">Description</label>
+                <label for="descriptionInput" class="form-label"><strong>Description</strong></label>
                 <textarea id="descriptionInput" v-model="state.form.description" class="form-control" maxlength="500" required></textarea>
             </div>
             <div class="rich-preview mb-2" v-html="preview"></div>
             <div class="mb-3">
-                <label for="assigneeSelect" class="form-label">Assignee</label>
+                <label for="assigneeSelect" class="form-label"><strong>Assignee</strong></label>
                 <select id="assigneeSelect" v-model="state.form.assignee" class="form-select" required>
                     <option v-for="a in assignees" :key="a">{{a}}</option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="statusSelect" class="form-label">Status</label>
+                <label for="statusSelect" class="form-label"><strong>Status</strong></label>
                 <select id="statusSelect" v-model="state.form.status" class="form-select" required>
                     <option v-for="s in statuses" :key="s">{{s}}</option>
                 </select>
