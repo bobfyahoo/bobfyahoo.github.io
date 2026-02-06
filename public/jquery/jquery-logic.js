@@ -120,24 +120,11 @@ const JQueryTab = {
     }
 };
 
-// Auto-initialize when opened standalone or embedded
-document.addEventListener('DOMContentLoaded', function() {
-    try {
-        if (typeof JQueryTab !== 'undefined') {
-            if (document.getElementById('jquery-mount')) {
-                JQueryTab.init('#jquery-mount');
-            } else if (document.getElementById('mount-point')) {
-                JQueryTab.init('#mount-point');
-            }
-        }
-    } catch (e) { console.error(e); }
-});
-
 function escapeHtml(unsafe) {
     return unsafe
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
+        .replace(/\"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
