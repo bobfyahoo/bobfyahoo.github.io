@@ -11,8 +11,8 @@ const JQueryTab = {
         const self = this;
 
         // load external templates (required when serving over HTTP)
-        const formUrl = './jquery/form.html';
-        const rowUrl = './jquery/row.html';
+        const formUrl = 'jquery/html/form.html';
+        const rowUrl = 'jquery/html/row.html';
 
         $.get(formUrl).done(function(formTpl) {
             const html = formTpl.replace('<!--ASSIGNEE_OPTIONS-->', assigneeOptions).replace('<!--STATUS_OPTIONS-->', statusOptions);
