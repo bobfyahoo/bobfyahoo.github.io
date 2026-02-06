@@ -1,7 +1,7 @@
 <div class="container-fluid">
   @if (view() === 'list') {
     <button class="btn btn-primary mb-3" (click)="openForm()">Add Ticket (Angular)</button>
-    <table class="table border">
+    <table class="table">
       <thead><tr><th>Summary</th><th>Assignee</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>
         @for (t of service.tickets(); track t.id) {
