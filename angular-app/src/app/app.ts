@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class AppComponent {
+export class App {
   service = inject(TicketService);
   view = signal<'list' | 'form'>('list');
   formModel = signal<any>({});
