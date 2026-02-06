@@ -1,10 +1,4 @@
-(function(){
-  console.warn('jquery-logic.js has moved to ./jquery/jquery-logic.js — loading that file instead.');
-  var s = document.createElement('script');
-  s.src = 'jquery/jquery-logic.js';
-  s.async = true;
-  document.head.appendChild(s);
-})();const JQueryTab = {
+const JQueryTab = {
     init: function(containerId) {
         this.$el = $(containerId);
         this.renderList();

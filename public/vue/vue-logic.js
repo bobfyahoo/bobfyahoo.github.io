@@ -1,11 +1,3 @@
-(function(){
-  console.warn('vue-logic.js has moved to ./vue/vue-logic.js — loading that file instead.');
-  var s = document.createElement('script');
-  s.src = 'vue/vue-logic.js';
-  s.async = true;
-  document.head.appendChild(s);
-})();
-
 const { createApp, reactive, computed } = Vue;
 
 const VueTab = {
