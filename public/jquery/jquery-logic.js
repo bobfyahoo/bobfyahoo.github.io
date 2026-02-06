@@ -8,53 +8,33 @@ const JQueryTab = {
         const tickets = GlobalStore.getTickets();
         const assigneeOptions = `<option value="">Select assignee</option>` + GlobalStore.assignees.map(a => `<option value="${a}">${a}</option>`).join('');
         const statusOptions = GlobalStore.statuses.map(s => `<option value="${s}">${s}</option>`).join('');
-        this.$el.html(`
-            <button class="btn btn-primary mb-3" id="jq-add-btn">Add Ticket (jQuery)</button>
-            <div id="jq-form" class="card p-3 mb-3 d-none" data-edit-id="">
-                <div class="mb-2">
-                    <label for="jq-summary" class="form-label"><strong>Summary</strong></label>
-                    <input id="jq-summary" class="form-control" maxlength="50" required>
-                </div>
-                <div class="mb-2">
-                    <label for="jq-description" class="form-label"><strong>Description</strong></label>
-                    <textarea id="jq-description" class="form-control" maxlength="500" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="jq-assignee" class="form-label"><strong>Assignee</strong></label>
-                    <select id="jq-assignee" class="form-select" required>
-                        ${assigneeOptions}
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="jq-status" class="form-label"><strong>Status</strong></label>
-                    <select id="jq-status" class="form-select" required>
-                        ${statusOptions}
-                    </select>
-                </div>
-                <button id="jq-save-btn" class="btn btn-success me-2">Save</button>
-                <button id="jq-cancel-btn" class="btn btn-light">Cancel</button>
-            </div>
-            <table id="jq-table" class="table">
-                <thead><tr><th>Summary</th><th>Assignee</th><th>Status</th><th>Actions</th></tr></thead>
-                <tbody id="jq-tbody"></tbody>
-            </table>
-        `);
+        const self = this;
 
-        tickets.forEach(t => {
-            $('#jq-tbody').append(`
-                <tr>
-                    <td>${t.summary}</td>
-                    <td>${t.assignee}</td>
-                    <td><span class="badge bg-secondary">${t.status}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-link jq-edit" data-id="${t.id}">Edit</button>
-                        <button class="btn btn-sm btn-link text-danger jq-del" data-id="${t.id}">Delete</button>
-                    </td>
-                </tr>
-            `);
+        // load external templates (required when serving over HTTP)
+        const formUrl = './form.html';
+        const rowUrl = './row.html';
+
+        $.get(formUrl).done(function(formTpl) {
+            const html = formTpl.replace('<!--ASSIGNEE_OPTIONS-->', assigneeOptions).replace('<!--STATUS_OPTIONS-->', statusOptions);
+            self.$el.html(html);
+
+            // load rows
+            $.get(rowUrl).done(function(rowTpl) {
+                tickets.forEach(t => {
+                    const row = rowTpl.replace(/__SUMMARY__/g, escapeHtml(t.summary || ''))
+                                      .replace(/__ASSIGNEE__/g, escapeHtml(t.assignee || ''))
+                                      .replace(/__STATUS__/g, escapeHtml(t.status || ''))
+                                      .replace(/__ID__/g, String(t.id));
+                    $('#jq-tbody').append(row);
+                });
+                self.bindEvents();
+            }).fail(function(err) {
+                console.error('Failed to load row template:', err);
+            });
+
+        }).fail(function(err) {
+            console.error('Failed to load form template:', err);
         });
-
-        this.bindEvents();
     },
 
     bindEvents: function() {
@@ -139,3 +119,25 @@ const JQueryTab = {
         });
     }
 };
+
+// Auto-initialize when opened standalone or embedded
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        if (typeof JQueryTab !== 'undefined') {
+            if (document.getElementById('jquery-mount')) {
+                JQueryTab.init('#jquery-mount');
+            } else if (document.getElementById('mount-point')) {
+                JQueryTab.init('#mount-point');
+            }
+        }
+    } catch (e) { console.error(e); }
+});
+
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}

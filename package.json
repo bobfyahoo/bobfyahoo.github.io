@@ -1,5 +1,15 @@
 {
+  "name": "bobfyahoo.github.io",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "http-server ./public -p 8080",
+    "start:open": "http-server ./public -p 8080 -o"
+  },
   "dependencies": {
     "bootstrap": "^5.3.8"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
   }
 }
