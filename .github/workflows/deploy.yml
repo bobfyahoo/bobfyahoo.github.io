@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Polyglot Site
 on:
   push:
     branches: [main]
@@ -7,29 +7,26 @@ permissions:
   pages: write
   id-token: write
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
       - name: Build Angular
         run: |
           cd angular-app
           npm install
-          npx ng build --base-href ./ 
-
-      - name: Assemble Site
+          npx ng build --base-href ./
+      - name: Prepare Files
         run: |
-          mkdir -p dist
-          cp -r public/* dist/
           mkdir -p dist/angular
+          cp -r public/* dist/
           cp -r angular-app/dist/angular-app/browser/* dist/angular/
-
-      - name: Upload to Pages
+      - name: Upload
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      - uses: actions/deploy-pages@v4
+      - name: Deploy
+        uses: actions/deploy-pages@v4

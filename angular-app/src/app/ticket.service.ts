@@ -2,28 +2,28 @@ import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class TicketService {
-  private readonly KEY = 'shared_tickets';
-  // Use a signal for synchronous, reactive state
-  tickets = signal<any[]>(this.load());
+  tickets = signal<any[]>(JSON.parse(localStorage.getItem('shared_tickets') || '[]'));
 
-  private load() {
-    return JSON.parse(localStorage.getItem(this.KEY) || '[]');
+  constructor() {
+    window.addEventListener('storage', () => {
+      this.tickets.set(JSON.parse(localStorage.getItem('shared_tickets') || '[]'));
+    });
   }
 
   save(ticket: any) {
-    const data = this.load();
+    const data = JSON.parse(localStorage.getItem('shared_tickets') || '[]');
     const now = new Date().toLocaleString();
-    const result = ticket.id 
+    const updated = ticket.id 
       ? data.map((t: any) => t.id === ticket.id ? { ...ticket, updated: now } : t)
-      : [...data, { ...ticket, id: Date.now(), created: now, updated: now, status: 'Open' }];
+      : [...data, { ...ticket, id: Date.now(), created: now, updated: now }];
     
-    localStorage.setItem(this.KEY, JSON.stringify(result));
-    this.tickets.set(result);
+    localStorage.setItem('shared_tickets', JSON.stringify(updated));
+    this.tickets.set(updated);
   }
 
   delete(id: number) {
-    const result = this.load().filter((t: any) => t.id !== id);
-    localStorage.setItem(this.KEY, JSON.stringify(result));
-    this.tickets.set(result);
+    const updated = JSON.parse(localStorage.getItem('shared_tickets') || '[]').filter((t:any) => t.id !== id);
+    localStorage.setItem('shared_tickets', JSON.stringify(updated));
+    this.tickets.set(updated);
   }
 }
