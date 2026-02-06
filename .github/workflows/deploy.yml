@@ -1,29 +1,35 @@
 name: Deploy to GitHub Pages
-
 on:
   push:
-    branches: ["main"]
-
+    branches: [main]
 permissions:
   contents: read
   pages: write
   id-token: write
-
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Upload artifact
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Angular
+        run: |
+          cd angular-app
+          npm install
+          npx ng build --base-href ./ 
+
+      - name: Assemble Site
+        run: |
+          mkdir -p dist
+          cp -r public/* dist/
+          mkdir -p dist/angular
+          cp -r angular-app/dist/angular-app/browser/* dist/angular/
+
+      - name: Upload to Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' # Upload the root directory
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          path: dist
+      - uses: actions/deploy-pages@v4

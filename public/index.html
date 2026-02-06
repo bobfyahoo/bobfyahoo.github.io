@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jira Polyglot - GitHub.io</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .nav-tabs { border-bottom: 2px solid #dee2e6; }
+        .nav-link { cursor: pointer; font-weight: 500; color: #6c757d; }
+        .nav-link.active { color: #0d6efd !important; font-weight: 700; }
+        .tab-container { border: 1px solid #dee2e6; border-top: none; padding: 25px; background: #fff; border-radius: 0 0 8px 8px; min-height: 400px; }
+        .rich-preview { border: 1px solid #ddd; padding: 10px; background: #fdfdfd; min-height: 80px; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Ticket Manager</h1>
+        <span class="badge bg-dark">Shared In-Memory Store</span>
+    </div>
+
+    <ul class="nav nav-tabs" id="mainTabs">
+        <li class="nav-item"><a class="nav-link active" data-framework="react">React 18</a></li>
+        <li class="nav-item"><a class="nav-link" data-framework="angular">Angular 17</a></li>
+        <li class="nav-item"><a class="nav-link" data-framework="vue">Vue 3</a></li>
+        <li class="nav-item"><a class="nav-link" data-framework="jquery">jQuery</a></li>
+    </ul>
+
+    <div id="mount-point" class="tab-container shadow-sm"></div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Removal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">Are you sure you want to remove item?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="globalConfirmDelete">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script src="shared-store.js"></script>
+<script src="react-logic.js"></script>
+<script src="vue-logic.js"></script>
+<script src="jquery-logic.js"></script>
+
+<script>
+    /**
+     * TAB SWITCHING LOGIC
+     * Dynamically mounts frameworks based on the selected tab.
+     */
+    const mountPoint = document.getElementById('mount-point');
+
+    function switchFramework(name) {
+        // 1. Clear current view
+        mountPoint.innerHTML = '';
+        
+        // 2. Mount requested framework
+        switch(name) {
+            case 'react':
+                const root = ReactDOM.createRoot(mountPoint);
+                root.render(React.createElement(ReactTab));
+                break;
+            case 'vue':
+                Vue.createApp(VueTab).mount(mountPoint);
+                break;
+            case 'jquery':
+                JQueryTab.init('#mount-point');
+                break;
+            case 'angular':
+                // Angular 17 build is injected here by the GitHub
