@@ -12,7 +12,7 @@ Each row in the table will have an action column on the right with edit, delete,
 
 The edit and add pages will be the same component where the edit page has an id and the add page will create a new id for the item when the save button is clicked.  The delete action will display a modal and ask for a confirmation, "Are you sure you want to remove item?".
 
-The item will be a simplified jira ticket with the following fields: Summary, description, created, updated, assignee, status. 
+The item will be a simplified problem ticket with the following fields: Summary, description, created, updated, assignee, status. 
 
 Summary is required and will be 50 chars max. It will allow all chars. 
 
