@@ -2,7 +2,7 @@ disregard all previous information
 
 I want to make a website to run on GitHub.io but I do not want references to the domain name. 
 
-The landing page will have 4 tabs: React, Angular, Vue, jQuery, and it will start on the React tab.  The website will use the current versions of React, Angular, Vue, JQuery and Bootstrap.  jQuery will only be used on the jQuery tab. The code will be idomatic and use best practices for each language with no method exceeding 50 lines of code. It will be compiled for angular.
+The landing page will have 4 tabs: React, Angular, Vue, jQuery, and it will start on the React tab.  The website will use the current versions of React, Angular, Vue, JQuery and Bootstrap.  jQuery will only be used on the jQuery tab. The code will be idomatic and use best practices for each language with no method exceeding 50 lines of code. It will be compiled for angular and static for React, Vue and JQuery.
 
 When a tab is clicked it will load rows into a table component from an in-memory store that is shared by all 4 tabs.
 
