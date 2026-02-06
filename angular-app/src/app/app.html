@@ -1,0 +1,32 @@
+<div class="container mt-3">
+  @if (view() === 'list') {
+    <button class="btn btn-primary mb-3" (click)="openForm()">Add Ticket (Angular)</button>
+    <table class="table border">
+      <thead><tr><th>Summary</th><th>Assignee</th><th>Actions</th></tr></thead>
+      <tbody>
+        @for (t of service.tickets(); track t.id) {
+          <tr>
+            <td>{{ t.summary }}</td>
+            <td>{{ t.assignee }}</td>
+            <td>
+              <button class="btn btn-sm btn-link" (click)="openForm(t)">Edit</button>
+              <button class="btn btn-sm btn-link text-danger" (click)="confirmDelete(t.id)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <div class="card p-3">
+      <input class="form-control mb-2" placeholder="Summary" [(ngModel)]="formModel().summary">
+      <textarea class="form-control mb-2" placeholder="Description" [(ngModel)]="formModel().description"></textarea>
+      <select class="form-select mb-3" [(ngModel)]="formModel().assignee">
+        @for (name of assignees; track name) { <option [value]="name">{{name}}</option> }
+      </select>
+      <div>
+        <button class="btn btn-success me-2" (click)="onSave()">Save</button>
+        <button class="btn btn-light" (click)="view.set('list')">Cancel</button>
+      </div>
+    </div>
+  }
+</div>

@@ -2,16 +2,19 @@ import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class TicketService {
-  tickets = signal<any[]>(JSON.parse(localStorage.getItem('shared_tickets') || '[]'));
+  tickets = signal<any[]>(this.getStorage());
 
   constructor() {
-    window.addEventListener('storage', () => {
-      this.tickets.set(JSON.parse(localStorage.getItem('shared_tickets') || '[]'));
-    });
+    // This is the Data Hook listener
+    window.addEventListener('storage', () => this.tickets.set(this.getStorage()));
+  }
+
+  private getStorage() {
+    return JSON.parse(localStorage.getItem('shared_tickets') || '[]');
   }
 
   save(ticket: any) {
-    const data = JSON.parse(localStorage.getItem('shared_tickets') || '[]');
+    const data = this.getStorage();
     const now = new Date().toLocaleString();
     const updated = ticket.id 
       ? data.map((t: any) => t.id === ticket.id ? { ...ticket, updated: now } : t)
@@ -22,8 +25,8 @@ export class TicketService {
   }
 
   delete(id: number) {
-    const updated = JSON.parse(localStorage.getItem('shared_tickets') || '[]').filter((t:any) => t.id !== id);
-    localStorage.setItem('shared_tickets', JSON.stringify(updated));
-    this.tickets.set(updated);
+    const data = this.getStorage().filter((t: any) => t.id !== id);
+    localStorage.setItem('shared_tickets', JSON.stringify(data));
+    this.tickets.set(data);
   }
 }
