@@ -11,7 +11,7 @@ const VueTab = {
         const preview = computed(() => marked.parse(state.form.description || ''));
 
         const openForm = (ticket = null) => {
-            state.form = ticket ? { ...ticket } : { summary: '', description: '', assignee: 'Robert', status: 'Open' };
+            state.form = ticket ? { ...ticket } : { summary: '', description: '', assignee: '', status: 'Open' };
             state.view = 'form';
         };
 
@@ -31,26 +31,48 @@ const VueTab = {
             modal.show();
         };
 
-        return { state, preview, openForm, save, confirmDelete, assignees: GlobalStore.assignees };
+        return { state, preview, openForm, save, confirmDelete, assignees: GlobalStore.assignees, statuses: GlobalStore.statuses };
     },
     template: `
         <div v-if="state.view === 'list'">
             <button class="btn btn-primary mb-3" @click="openForm()">Add Ticket (Vue)</button>
             <table class="table">
-                <tr v-for="t in state.tickets" :key="t.id">
-                    <td>{{t.summary}}</td><td>{{t.assignee}}</td>
-                    <td><button class="btn btn-sm btn-link" @click="openForm(t)">Edit</button>
-                        <button class="btn btn-sm btn-link text-danger" @click="confirmDelete(t.id)">Delete</button></td>
-                </tr>
+                <thead><tr><th>Summary</th><th>Assignee</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                  <tr v-for="t in state.tickets" :key="t.id">
+                    <td>{{t.summary}}</td>
+                    <td>{{t.assignee}}</td>
+                    <td><span class="badge bg-secondary">{{t.status}}</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-link" @click="openForm(t)">Edit</button>
+                      <button class="btn btn-sm btn-link text-danger" @click="confirmDelete(t.id)">Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
             </table>
         </div>
         <form v-else @submit.prevent="save">
-            <input v-model="state.form.summary" class="form-control mb-2" maxlength="50" required>
-            <textarea v-model="state.form.description" class="form-control mb-2" maxlength="500" required></textarea>
+            <div class="mb-2">
+                <label for="summaryInput" class="form-label">Summary</label>
+                <input id="summaryInput" v-model="state.form.summary" class="form-control" maxlength="50" required>
+            </div>
+            <div class="mb-2">
+                <label for="descriptionInput" class="form-label">Description</label>
+                <textarea id="descriptionInput" v-model="state.form.description" class="form-control" maxlength="500" required></textarea>
+            </div>
             <div class="rich-preview mb-2" v-html="preview"></div>
-            <select v-model="state.form.assignee" class="form-select mb-3">
-                <option v-for="a in assignees">{{a}}</option>
-            </select>
+            <div class="mb-3">
+                <label for="assigneeSelect" class="form-label">Assignee</label>
+                <select id="assigneeSelect" v-model="state.form.assignee" class="form-select" required>
+                    <option v-for="a in assignees" :key="a">{{a}}</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="statusSelect" class="form-label">Status</label>
+                <select id="statusSelect" v-model="state.form.status" class="form-select" required>
+                    <option v-for="s in statuses" :key="s">{{s}}</option>
+                </select>
+            </div>
             <button class="btn btn-success me-2">Save</button>
             <button type="button" class="btn btn-light" @click="state.view = 'list'">Cancel</button>
         </form>

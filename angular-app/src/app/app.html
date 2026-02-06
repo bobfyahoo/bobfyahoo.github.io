@@ -2,12 +2,13 @@
   @if (view() === 'list') {
     <button class="btn btn-primary mb-3" (click)="openForm()">Add Ticket (Angular)</button>
     <table class="table border">
-      <thead><tr><th>Summary</th><th>Assignee</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Summary</th><th>Assignee</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>
         @for (t of service.tickets(); track t.id) {
           <tr>
             <td>{{ t.summary }}</td>
             <td>{{ t.assignee }}</td>
+            <td><span class="badge bg-secondary">{{ t.status }}</span></td>
             <td>
               <button class="btn btn-sm btn-link" (click)="openForm(t)">Edit</button>
               <button class="btn btn-sm btn-link text-danger" (click)="confirmDelete(t.id)">Delete</button>
@@ -18,11 +19,26 @@
     </table>
   } @else {
     <div class="card p-3">
-      <input class="form-control mb-2" placeholder="Summary" [(ngModel)]="formModel().summary">
-      <textarea class="form-control mb-2" placeholder="Description" [(ngModel)]="formModel().description"></textarea>
-      <select class="form-select mb-3" [(ngModel)]="formModel().assignee">
-        @for (name of assignees; track name) { <option [value]="name">{{name}}</option> }
-      </select>
+      <div class="mb-2">
+        <label for="summaryInput" class="form-label">Summary</label>
+        <input id="summaryInput" class="form-control" placeholder="Summary" [(ngModel)]="formModel().summary" required maxlength="50">
+      </div>
+      <div class="mb-2">
+        <label for="descriptionInput" class="form-label">Description</label>
+        <textarea id="descriptionInput" class="form-control" placeholder="Description" [(ngModel)]="formModel().description" required maxlength="500"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="assigneeSelect" class="form-label">Assignee</label>
+        <select id="assigneeSelect" class="form-select" [(ngModel)]="formModel().assignee" required>
+          @for (name of assignees; track name) { <option [value]="name">{{name}}</option> }
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="statusSelect" class="form-label">Status</label>
+        <select id="statusSelect" class="form-select" [(ngModel)]="formModel().status" required>
+          @for (s of statuses; track s) { <option [value]="s">{{s}}</option> }
+        </select>
+      </div>
       <div>
         <button class="btn btn-success me-2" (click)="onSave()">Save</button>
         <button class="btn btn-light" (click)="view.set('list')">Cancel</button>

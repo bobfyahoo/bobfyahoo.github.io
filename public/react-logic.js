@@ -63,15 +63,32 @@ function TicketTable({ tickets, onEdit, onDelete }) {
 }
 
 function TicketForm({ ticket, onSave, onCancel }) {
-    const [form, setForm] = useState(ticket || { summary: '', description: '', assignee: 'Robert', status: 'Open' });
+    const [form, setForm] = useState(ticket || { summary: '', description: '', assignee: '', status: 'Open' });
     const preview = marked.parse(form.description || '');
 
     return React.createElement('form', { onSubmit: (e) => { e.preventDefault(); onSave(form); }},
-        React.createElement('input', { className: 'form-control mb-2', placeholder: 'Summary', maxLength: 50, required: true, value: form.summary, onChange: e => setForm({...form, summary: e.target.value})}),
-        React.createElement('textarea', { className: 'form-control mb-2', placeholder: 'Description', maxLength: 500, required: true, value: form.description, onChange: e => setForm({...form, description: e.target.value})}),
+        React.createElement('div', { className: 'mb-2' },
+            React.createElement('label', { htmlFor: 'summaryInput', className: 'form-label' }, 'Summary'),
+            React.createElement('input', { id: 'summaryInput', className: 'form-control', maxLength: 50, required: true, value: form.summary, onChange: e => setForm({...form, summary: e.target.value}) })
+        ),
+        React.createElement('div', { className: 'mb-2' },
+            React.createElement('label', { htmlFor: 'descriptionInput', className: 'form-label' }, 'Description'),
+            React.createElement('textarea', { id: 'descriptionInput', className: 'form-control', maxLength: 500, required: true, value: form.description, onChange: e => setForm({...form, description: e.target.value}) })
+        ),
         React.createElement('div', { className: 'rich-preview mb-2', dangerouslySetInnerHTML: { __html: preview } }),
-        React.createElement('select', { className: 'form-select mb-2', value: form.assignee, onChange: e => setForm({...form, assignee: e.target.value})}, 
-            GlobalStore.assignees.map(a => React.createElement('option', { key: a }, a))),
+        React.createElement('div', { className: 'mb-2' },
+            React.createElement('label', { htmlFor: 'assigneeSelect', className: 'form-label' }, 'Assignee'),
+            React.createElement('select', { id: 'assigneeSelect', className: 'form-select', value: form.assignee, required: true, onChange: e => setForm({...form, assignee: e.target.value})}, 
+                React.createElement('option', { key: '__empty__', value: '' }, 'Select assignee'),
+                GlobalStore.assignees.map(a => React.createElement('option', { key: a, value: a }, a))
+            )
+        ),
+        React.createElement('div', { className: 'mb-2' },
+            React.createElement('label', { htmlFor: 'statusSelect', className: 'form-label' }, 'Status'),
+            React.createElement('select', { id: 'statusSelect', className: 'form-select', value: form.status, required: true, onChange: e => setForm({...form, status: e.target.value})}, 
+                GlobalStore.statuses.map(s => React.createElement('option', { key: s, value: s }, s))
+            )
+        ),
         React.createElement('button', { type: 'submit', className: 'btn btn-success me-2' }, 'Save'),
         React.createElement('button', { type: 'button', className: 'btn btn-light', onClick: onCancel }, 'Cancel')
     );
