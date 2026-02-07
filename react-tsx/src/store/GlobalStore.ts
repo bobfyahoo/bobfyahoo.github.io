@@ -1,3 +1,5 @@
+import type { Ticket } from "../components/ReactTab";
+
 const STORAGE_KEY = 'shared_tickets';
 
 export const GlobalStore = {
@@ -13,21 +15,21 @@ export const GlobalStore = {
     return localStorage;
   },
 
-  getTickets(): any[] {
+  getTickets(): Ticket[] {
     const storage = this.getStorageApi();
     return JSON.parse(storage.getItem(STORAGE_KEY) || '[]');
   },
 
-  saveTicket(ticket: any) {
+  saveTicket(ticket: Ticket) {
     const storage = this.getStorageApi();
     const raw = this.getTickets();
     const now = new Date().toLocaleString();
     
-    const exists = raw.some((t: any) => t.id === ticket.id);
-    let updated: any[];
+    const exists = raw.some((t: Ticket) => t.id === ticket.id);
+    let updated: Ticket[];
 
     if (exists) {
-      updated = raw.map((t: any) =>
+      updated = raw.map((t: Ticket) =>
         t.id === ticket.id ? { ...ticket, updated: now } : t
       );
     } else {
@@ -44,9 +46,9 @@ export const GlobalStore = {
     this.triggerStorageSync();
   },
 
-  deleteTicket(id: any) {
+  deleteTicket(id: string) {
     const storage = this.getStorageApi();
-    const data = this.getTickets().filter((t: any) => t.id !== id);
+    const data = this.getTickets().filter((t: Ticket) => t.id !== id);
     storage.setItem(STORAGE_KEY, JSON.stringify(data));
     this.triggerStorageSync();
   },

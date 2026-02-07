@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { marked } from 'marked'; 
 import { GlobalStore } from '../store/GlobalStore';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -23,6 +23,23 @@ const ReactTab = () => {
     refresh();
     setView('list');
   };
+
+  useEffect(() => {
+    // 1. Define the logic to sync data
+    const handleStorage = () => {
+      console.log('Syncing tickets from storage...');
+      refresh();
+    };
+
+    // 2. Start listening (Equivalent to your Angular constructor)
+    window.addEventListener('storage', handleStorage);
+
+    // 3. THE CLEANUP (The important part!)
+    // This runs right before the component is destroyed (unmounted)
+    return () => {
+      window.removeEventListener('storage', handleStorage);
+    };
+  }, []); // Empty array means "run once on startup"
 
   const confirmDelete = (id: string) => {
     const modalElement = window.parent.document.getElementById('deleteModal');
