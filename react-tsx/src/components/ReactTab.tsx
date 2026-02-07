@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { marked } from 'marked'; 
 import { GlobalStore } from '../store/GlobalStore';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import * as bootstrap from 'bootstrap';
 
 export interface Ticket {
   id: string;
@@ -26,12 +25,12 @@ const ReactTab = () => {
   };
 
   const confirmDelete = (id: string) => {
-    const modalElement = document.getElementById('deleteModal');
-    const confirmBtn = document.getElementById('globalConfirmDelete');
+    const modalElement = window.parent.document.getElementById('deleteModal');
+    const confirmBtn = window.parent.document.getElementById('globalConfirmDelete');
 
     // Check that BOTH exist before proceeding
     if (modalElement && confirmBtn) {
-      const modal = new bootstrap.Modal(modalElement);
+      const modal = new (window as any).parent.bootstrap.Modal(modalElement);
       
       confirmBtn.onclick = () => {
         GlobalStore.deleteTicket(id);
