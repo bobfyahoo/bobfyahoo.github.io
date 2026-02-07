@@ -6,12 +6,13 @@
           <tr v-for="t in state.tickets" :key="t.id">
             <td>{{t.summary}}</td>
             <td>{{t.assignee}}</td>
-            <td><span class="badge bg-secondary">{{t.status}}</span></td>
             <td>
-              <button class="btn btn-sm btn-link" @click="openForm(t)">Edit</button>
               <select class="form-select form-select-sm d-inline-block w-auto" :value="t.status" @change="changeStatus(t, $event.target.value)">
                 <option v-for="s in statuses" :key="s" :value="s">{{ s }}</option>
               </select>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-link" @click="openForm(t)">Edit</button>
               <button class="btn btn-sm btn-link text-danger" @click="confirmDelete(t.id)">Delete</button>
             </td>
           </tr>

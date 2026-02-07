@@ -54,14 +54,15 @@ function TicketTable({ tickets, onEdit, onDelete, onStatusChange }) {
         React.createElement('tbody', null, tickets.map(t => React.createElement('tr', { key: t.id },
             React.createElement('td', null, t.summary),
             React.createElement('td', null, t.assignee),
-            React.createElement('td', null, React.createElement('span', { className: 'badge bg-secondary' }, t.status)),
-            React.createElement('td', null, 
-                React.createElement('button', { className: 'btn btn-sm btn-link', onClick: () => onEdit(t) }, 'Edit'),
+            React.createElement('td', null,
                 React.createElement('select', {
                     className: 'form-select form-select-sm d-inline-block w-auto',
                     value: t.status,
                     onChange: e => onStatusChange(t, e.target.value)
-                }, GlobalStore.statuses.map(s => React.createElement('option', { key: s, value: s }, s))),
+                }, GlobalStore.statuses.map(s => React.createElement('option', { key: s, value: s }, s))
+                )),
+            React.createElement('td', null, 
+                React.createElement('button', { className: 'btn btn-sm btn-link', onClick: () => onEdit(t) }, 'Edit'),
                 React.createElement('button', { className: 'btn btn-sm btn-link text-danger', onClick: () => onDelete(t.id) }, 'Delete')
             )
         )))
