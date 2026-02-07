@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { marked } from 'marked'; 
 import { GlobalStore } from '../store/GlobalStore';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import * as bootstrap from 'bootstrap'; 
+import * as bootstrap from 'bootstrap';
 
-interface Ticket {
+export interface Ticket {
   id: string;
   summary: string;
   description: string;
@@ -13,9 +13,9 @@ interface Ticket {
 }
 
 const ReactTab = () => {
-  const [view, setView] = useState('list');
-  const [tickets, setTickets] = useState(GlobalStore.getTickets());
-  const [activeTicket, setActiveTicket] = useState(null);
+  const [view, setView] = useState<'list' | 'form'>('list');
+  const [tickets, setTickets] = useState<Ticket[]>(GlobalStore.getTickets());
+  const [activeTicket, setActiveTicket] = useState<Ticket | null>(null);
 
   const refresh = () => setTickets(GlobalStore.getTickets());
 
@@ -27,14 +27,21 @@ const ReactTab = () => {
 
   const confirmDelete = (id: string) => {
     const modalElement = document.getElementById('deleteModal');
-    const modal = new bootstrap.Modal(modalElement as HTMLElement);
-    
-    document.getElementById('globalConfirmDelete').onclick = () => {
-      GlobalStore.deleteTicket(id);
-      refresh();
-      modal.hide();
-    };
-    modal.show();
+    const confirmBtn = document.getElementById('globalConfirmDelete');
+
+    // Check that BOTH exist before proceeding
+    if (modalElement && confirmBtn) {
+      const modal = new bootstrap.Modal(modalElement);
+      
+      confirmBtn.onclick = () => {
+        GlobalStore.deleteTicket(id);
+        refresh();
+        modal.hide();
+      };
+      modal.show();
+    } else {
+      console.error("Could not find the modal or confirm button in the DOM.");
+    }
   };
 
   if (view === 'form') {
@@ -71,17 +78,16 @@ const ReactTab = () => {
 
 // --- Sub-Components ---
 
-function TicketTable({ 
-  tickets, 
-  onEdit, 
-  onDelete, 
-  onStatusChange 
-}: { 
-  tickets: Ticket[], 
-  onEdit: (t: Ticket) => void, 
-  onDelete: (id: string) => void, 
-  onStatusChange: (t: Ticket, status: string) => void 
-}) {  return (
+
+interface TableProps {
+  tickets: Ticket[];
+  onEdit: (t: Ticket) => void;
+  onDelete: (id: string) => void;
+  onStatusChange: (t: Ticket, status: string) => void;
+}
+
+function TicketTable({tickets, onEdit, onDelete, onStatusChange }: TableProps) {  
+  return (
     <table className="table align-middle">
       <thead>
         <tr>
@@ -114,7 +120,13 @@ function TicketTable({
   );
 }
 
-function TicketForm({ ticket, onSave, onCancel }) {
+interface FormProps {
+  ticket: Ticket | null;
+  onSave: (data: Ticket) => void;
+  onCancel: () => void;
+}
+
+function TicketForm({ ticket, onSave, onCancel }: FormProps) {
   const [form, setForm] = useState(ticket || { 
     id: crypto.randomUUID(), 
     summary: '', 
@@ -125,7 +137,7 @@ function TicketForm({ ticket, onSave, onCancel }) {
 
   const preview = marked.parse(form.description || '');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSave(form);
   };
