@@ -1,6 +1,6 @@
 <div v-if="state.view === 'list'">
     <button class="btn btn-primary mb-3" @click="openForm()">Add Ticket (Vue)</button>
-    <table class="table">
+    <table class="table align-middle">
         <thead><tr><th>Summary</th><th>Assignee</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody>
           <tr v-for="t in state.tickets" :key="t.id">
