@@ -46,7 +46,7 @@ export class TicketService {
       : [...data, { ...ticket, id: Date.now(), created: now, updated: now, status: ticket.status || 'Open' }];
 
     localStorage.setItem('shared_tickets', JSON.stringify(updated));
-    this.tickets.set(updated);
+    this.tickets.set([...updated]);
   }
 
   delete(id: number) {

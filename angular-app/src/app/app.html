@@ -9,7 +9,7 @@
             <td>{{ t.summary }}</td>
             <td>{{ t.assignee }}</td>
             <td>
-              <select class="form-select form-select-sm d-inline-block w-auto" [ngModel]="t.status" (ngModelChange)="changeStatus(t, $event)">
+              <select class="form-select form-select-sm d-inline-block w-auto" [value]="t.status" (change)="changeStatus(t, $any($event.target).value)">
                 @for (s of statuses; track s) { <option [value]="s">{{ s }}</option> }
               </select>
             </td>
