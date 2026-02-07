@@ -35,18 +35,21 @@ export class TicketService {
   }
 
   save(ticket: any) {
-    const data = this.getStorage();
+    const raw = JSON.parse(localStorage.getItem('shared_tickets') || '[]');
     const now = new Date().toLocaleString();
-    const id = ticket.id;
-    const hasId = id !== undefined && id !== null && id !== '';
-    const updated = hasId
-      ? data.map((t: any) =>
-          t.id == id ? { ...t, ...ticket, updated: now } : t
-        )
-      : [...data, { ...ticket, id: Date.now(), created: now, updated: now, status: ticket.status || 'Open' }];
-
+    let updated: any[];
+    if (ticket.id !== undefined && ticket.id !== null && ticket.id !== '') {
+      updated = raw.map((t: any) =>
+        t.id === ticket.id || t.id == ticket.id
+          ? { ...ticket, updated: now }
+          : t
+      );
+    } else {
+      updated = [...raw, { ...ticket, id: Date.now(), created: now, updated: now, status: ticket.status || 'Open' }];
+    }
     localStorage.setItem('shared_tickets', JSON.stringify(updated));
-    this.tickets.set([...updated]);
+    window.dispatchEvent(new Event('storage'));
+    this.tickets.set(this.getStorage());
   }
 
   delete(id: number) {
