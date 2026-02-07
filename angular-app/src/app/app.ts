@@ -1,7 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TicketService } from './ticket.service'; // We will create this next
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { TicketService } from './ticket.service';
 import { FormsModule } from '@angular/forms';
+import { marked } from 'marked';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +14,23 @@ import { FormsModule } from '@angular/forms';
 })
 export class App {
   service = inject(TicketService);
+  private sanitizer = inject(DomSanitizer);
   view = signal<'list' | 'form'>('list');
   formModel = signal<any>({});
-  
+
+  descriptionPreview = computed((): SafeHtml => {
+    const raw = this.formModel().description || '';
+    const html = marked.parse(raw) as string;
+    return this.sanitizer.bypassSecurityTrustHtml(html || '');
+  });
+
   assignees = ['Robert', 'Sarah', 'James', 'Elena', 'Hiro', 'Chloe'];
 
   statuses = ['Open', 'In-Progress', 'Resolved', 'Re-opened', 'Tested', 'Deployed', 'Closed'];
+
+  changeStatus(ticket: any, newStatus: string) {
+    this.service.save({ ...ticket, status: newStatus });
+  }
 
   openForm(ticket?: any) {
     this.formModel.set(ticket ? { ...ticket } : { assignee: '', summary: '', description: '', status: 'Open' });

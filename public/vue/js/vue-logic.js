@@ -31,7 +31,12 @@ const VueTab = {
             modal.show();
         };
 
-        return { state, preview, openForm, save, confirmDelete, assignees: GlobalStore.assignees, statuses: GlobalStore.statuses };
+        const changeStatus = (ticket, newStatus) => {
+            GlobalStore.saveTicket({ ...ticket, status: newStatus });
+            state.tickets = GlobalStore.getTickets();
+        };
+
+        return { state, preview, openForm, save, confirmDelete, changeStatus, assignees: GlobalStore.assignees, statuses: GlobalStore.statuses };
     },
     // template moved to external file. The main page will load it when serving over HTTP.
     // If you want the inline template kept as fallback, I can add a small runtime fetch + fallback here.

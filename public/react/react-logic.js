@@ -39,13 +39,14 @@ const ReactTab = () => {
         React.createElement(TicketTable, { 
             tickets, 
             onEdit: (t) => { setActiveTicket(t); setView('form'); }, 
-            onDelete: confirmDelete 
+            onDelete: confirmDelete,
+            onStatusChange: (t, newStatus) => { GlobalStore.saveTicket({ ...t, status: newStatus }); refresh(); }
         })
     );
 };
 
 // Table and Form components extracted to keep methods short
-function TicketTable({ tickets, onEdit, onDelete }) {
+function TicketTable({ tickets, onEdit, onDelete, onStatusChange }) {
     return React.createElement('table', { className: 'table align-middle' },
         React.createElement('thead', null, React.createElement('tr', null, 
             ['Summary', 'Assignee', 'Status', 'Actions'].map(h => React.createElement('th', { key: h }, h))
@@ -56,6 +57,11 @@ function TicketTable({ tickets, onEdit, onDelete }) {
             React.createElement('td', null, React.createElement('span', { className: 'badge bg-secondary' }, t.status)),
             React.createElement('td', null, 
                 React.createElement('button', { className: 'btn btn-sm btn-link', onClick: () => onEdit(t) }, 'Edit'),
+                React.createElement('select', {
+                    className: 'form-select form-select-sm d-inline-block w-auto',
+                    value: t.status,
+                    onChange: e => onStatusChange(t, e.target.value)
+                }, GlobalStore.statuses.map(s => React.createElement('option', { key: s, value: s }, s))),
                 React.createElement('button', { className: 'btn btn-sm btn-link text-danger', onClick: () => onDelete(t.id) }, 'Delete')
             )
         )))

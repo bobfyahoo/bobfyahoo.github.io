@@ -11,7 +11,8 @@
     <div class="mb-3">
         <label for="assigneeSelect" class="form-label"><strong>Assignee</strong></label>
         <select id="assigneeSelect" v-model="state.form.assignee" class="form-select" required>
-            <option v-for="a in assignees" :key="a">{{a}}</option>
+            <option value="">Select assignee</option>
+            <option v-for="a in assignees" :key="a" :value="a">{{a}}</option>
         </select>
     </div>
     <div class="mb-3">

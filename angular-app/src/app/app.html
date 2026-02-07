@@ -11,6 +11,9 @@
             <td><span class="badge bg-secondary">{{ t.status }}</span></td>
             <td>
               <button class="btn btn-sm btn-link" (click)="openForm(t)">Edit</button>
+              <select class="form-select form-select-sm d-inline-block w-auto" [value]="t.status" (change)="changeStatus(t, $any($event.target).value)">
+                @for (s of statuses; track s) { <option [value]="s">{{ s }}</option> }
+              </select>
               <button class="btn btn-sm btn-link text-danger" (click)="confirmDelete(t.id)">Delete</button>
             </td>
           </tr>
@@ -27,9 +30,11 @@
         <label for="descriptionInput" class="form-label"><strong>Description</strong></label>
         <textarea id="descriptionInput" class="form-control" placeholder="Description" [(ngModel)]="formModel().description" required maxlength="500"></textarea>
       </div>
+      <div class="rich-preview mb-2" [innerHTML]="descriptionPreview()"></div>
       <div class="mb-3">
         <label for="assigneeSelect" class="form-label"><strong>Assignee</strong></label>
         <select id="assigneeSelect" class="form-select" [(ngModel)]="formModel().assignee" required>
+          <option value="">Select assignee</option>
           @for (name of assignees; track name) { <option [value]="name">{{name}}</option> }
         </select>
       </div>

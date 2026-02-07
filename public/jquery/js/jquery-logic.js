@@ -21,10 +21,12 @@ const JQueryTab = {
             // load rows
             $.get(rowUrl).done(function(rowTpl) {
                 tickets.forEach(t => {
+                    const statusOpts = GlobalStore.statuses.map(s => `<option value="${escapeHtml(s)}"${s === t.status ? ' selected' : ''}>${escapeHtml(s)}</option>`).join('');
                     const row = rowTpl.replace(/__SUMMARY__/g, escapeHtml(t.summary || ''))
                                       .replace(/__ASSIGNEE__/g, escapeHtml(t.assignee || ''))
                                       .replace(/__STATUS__/g, escapeHtml(t.status || ''))
-                                      .replace(/__ID__/g, String(t.id));
+                                      .replace(/__ID__/g, String(t.id))
+                                      .replace(/__STATUS_OPTIONS__/, statusOpts);
                     $('#jq-tbody').append(row);
                 });
                 self.bindEvents();
@@ -116,6 +118,13 @@ const JQueryTab = {
                 modal.hide();
             });
             modal.show();
+        });
+
+        self.$el.off('change', '.jq-status-change').on('change', '.jq-status-change', function() {
+            const id = $(this).data('id');
+            const newStatus = $(this).val();
+            const t = GlobalStore.getTickets().find(x => x.id == id);
+            if (t) { GlobalStore.saveTicket({ ...t, status: newStatus }); self.renderList(); }
         });
     }
 };
