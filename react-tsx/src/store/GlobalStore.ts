@@ -1,0 +1,61 @@
+const STORAGE_KEY = 'shared_tickets';
+
+export const GlobalStore = {
+  statuses: ['Open', 'In Progress', 'Resolved', 'Closed'],
+  assignees: ['Alice', 'Bob', 'Charlie', 'Unassigned'],
+
+  getStorageApi(): Storage {
+    try {
+      if (typeof window !== 'undefined' && window.parent && window.parent !== window && window.parent.localStorage) {
+        return window.parent.localStorage;
+      }
+    } catch { /* Cross-origin or access denied */ }
+    return localStorage;
+  },
+
+  getTickets(): any[] {
+    const storage = this.getStorageApi();
+    return JSON.parse(storage.getItem(STORAGE_KEY) || '[]');
+  },
+
+  saveTicket(ticket: any) {
+    const storage = this.getStorageApi();
+    const raw = this.getTickets();
+    const now = new Date().toLocaleString();
+    
+    const exists = raw.some((t: any) => t.id === ticket.id);
+    let updated: any[];
+
+    if (exists) {
+      updated = raw.map((t: any) =>
+        t.id === ticket.id ? { ...ticket, updated: now } : t
+      );
+    } else {
+      const newTicket = { 
+        ...ticket, 
+        created: now, 
+        updated: now, 
+        status: ticket.status || 'Open' 
+      };
+      updated = [...raw, newTicket];
+    }
+
+    storage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    this.triggerStorageSync();
+  },
+
+  deleteTicket(id: any) {
+    const storage = this.getStorageApi();
+    const data = this.getTickets().filter((t: any) => t.id !== id);
+    storage.setItem(STORAGE_KEY, JSON.stringify(data));
+    this.triggerStorageSync();
+  },
+
+  triggerStorageSync() {
+    try {
+      window.parent.dispatchEvent(new Event('storage'));
+    } catch {
+      window.dispatchEvent(new Event('storage'));
+    }
+  }
+};

@@ -15,6 +15,7 @@
     <div class="container py-5">
         <ul class="nav nav-tabs" id="frameworkTabs">
             <li class="nav-item"><a class="nav-link active" data-framework="react">React</a></li>
+            <li class="nav-item"><a class="nav-link" data-framework="react-tsx">React TSX</a></li>
             <li class="nav-item"><a class="nav-link" data-framework="angular">Angular 17</a></li>
             <li class="nav-item"><a class="nav-link" data-framework="vue">Vue</a></li>
             <li class="nav-item"><a class="nav-link" data-framework="jquery">jQuery</a></li>
@@ -51,6 +52,7 @@
             if(name === 'vue') Vue.createApp(VueTab).mount(mount);
             if(name === 'jquery') JQueryTab.init('#mount-point');
             if(name === 'angular') mount.innerHTML = `<iframe src="./angular/index.html" style="width:100%; height:600px; border:none;"></iframe>`;
+            if(name === 'react-tsx') mount.innerHTML = `<iframe src="./react-tsx/index.html" style="width:100%; height:600px; border:none;"></iframe>`;
         }
         document.querySelectorAll('.nav-link').forEach(link => {
             link.onclick = (e) => {
