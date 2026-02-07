@@ -46,7 +46,6 @@ const JQueryTab = {
             $('#jq-form').data('editId', '').attr('data-edit-id', '');
             $('#jq-summary').val('');
             $('#jq-description').val('');
-            $
             // default assignee blank, status Open
             $('#jq-assignee').val('');
             $('#jq-status').val('Open');

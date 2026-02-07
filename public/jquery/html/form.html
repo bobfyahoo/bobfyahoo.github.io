@@ -1,5 +1,5 @@
 <button class="btn btn-primary mb-3" id="jq-add-btn">Add Ticket (jQuery)</button>
-<div id="jq-form" class="card p-3 mb-3 d-none" data-edit-id="">
+<form id="jq-form" class="p-3 mb-3 d-none" data-edit-id="">
     <div class="mb-2">
         <label for="jq-summary" class="form-label"><strong>Summary</strong></label>
         <input id="jq-summary" class="form-control" maxlength="50" required>
@@ -23,9 +23,9 @@
             <!--STATUS_OPTIONS-->
         </select>
     </div>
-    <button id="jq-save-btn" class="btn btn-success me-2">Save</button>
-    <button id="jq-cancel-btn" class="btn btn-light">Cancel</button>
-</div>
+    <button id="jq-save-btn" class="btn btn-success me-2">Save</button> 
+    <button type="button" id="jq-cancel-btn" class="btn btn-light">Cancel</button>
+</form>
 <table id="jq-table" class="table">
     <thead><tr><th>Summary</th><th>Assignee</th><th>Status</th><th>Actions</th></tr></thead>
     <tbody id="jq-tbody"></tbody>
