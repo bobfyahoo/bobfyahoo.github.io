@@ -70,7 +70,7 @@ function TicketTable({ tickets, onEdit, onDelete, onStatusChange }) {
 }
 
 function TicketForm({ ticket, onSave, onCancel }) {
-    const [form, setForm] = useState(ticket || { summary: '', description: '', assignee: '', status: 'Open' });
+    const [form, setForm] = useState(ticket || { id: crypto.randomUUID(), summary: '', description: '', assignee: '', status: 'Open' });
     const preview = marked.parse(form.description || '');
 
     return React.createElement('form', { onSubmit: (e) => { e.preventDefault(); onSave(form); }},

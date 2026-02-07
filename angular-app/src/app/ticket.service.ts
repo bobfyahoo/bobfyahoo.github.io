@@ -24,28 +24,7 @@ export class TicketService {
 
   private getStorage(): any[] {
     const storage = this.getStorageApi();
-    const raw = JSON.parse(storage.getItem(STORAGE_KEY) || '[]');
-    let changed = false;
-    const seen = new Set<string | number>();
-    const normalized = raw
-      .map((t: any, i: number) => {
-        if (t.id != null && t.id !== '') return t;
-        changed = true;
-        return { ...t, id: crypto.randomUUID() + i };
-      })
-      .filter((t: any) => {
-        const key = t.id;
-        if (seen.has(key)) {
-          changed = true;
-          return false;
-        }
-        seen.add(key);
-        return true;
-      });
-    if (changed) {
-      storage.setItem(STORAGE_KEY, JSON.stringify(normalized));
-    }
-    return normalized;
+    return JSON.parse(storage.getItem(STORAGE_KEY) || '[]');
   }
 
   save(ticket: any) {
