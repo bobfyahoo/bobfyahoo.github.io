@@ -11,7 +11,7 @@ const VueTab = {
         const preview = computed(() => marked.parse(state.form.description || ''));
 
         const openForm = (ticket = null) => {
-            state.form = ticket ? { ...ticket } : { summary: '', description: '', assignee: '', status: 'Open' };
+            state.form = ticket ? { ...ticket } : { id: crypto.randomUUID(), summary: '', description: '', assignee: '', status: 'Open'};
             state.view = 'form';
         };
 

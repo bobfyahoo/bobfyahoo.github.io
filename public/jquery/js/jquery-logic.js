@@ -57,7 +57,7 @@ const JQueryTab = {
         });
 
         $('#jq-save-btn').off('click').on('click', () => {
-            const editId = $('#jq-form').data('editId') || $('#jq-form').attr('data-edit-id');
+            const editId = $('#jq-form').data('editId') || $('#jq-form').attr('data-edit-id') || crypto.randomUUID();
             const summary = String($('#jq-summary').val() || '').trim();
             const description = String($('#jq-description').val() || '').trim();
             const assignee = String($('#jq-assignee').val() || '').trim();
@@ -69,8 +69,7 @@ const JQueryTab = {
             if (!assignee) { $('#jq-assignee').addClass('is-invalid').focus(); return; } else { $('#jq-assignee').removeClass('is-invalid'); }
             if (!status) { $('#jq-status').addClass('is-invalid').focus(); return; } else { $('#jq-status').removeClass('is-invalid'); }
 
-            const ticket = { summary, description, assignee, status };
-            if (editId) { ticket.id = Number(editId); }
+            const ticket = { id: editId, summary, description, assignee, status };
             GlobalStore.saveTicket(ticket);
             self.renderList();
         });
