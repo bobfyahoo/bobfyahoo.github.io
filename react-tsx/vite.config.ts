@@ -10,6 +10,8 @@ export default defineConfig({
       modulePreload: {
         polyfill: false
       },
+      // Prevents Vite from injecting small CSS strings into the HTML
+      assetsInlineLimit: 0,
       // 3. Ensures CSS is its own file and not injected as a script string
       cssCodeSplit: true,
       // This will build directly into a folder the parent index.html can see
