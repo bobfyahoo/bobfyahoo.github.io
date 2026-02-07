@@ -10,14 +10,28 @@ const GlobalStore = {
     saveTicket(ticket) {
         const data = this.getTickets();
         const now = new Date().toLocaleString();
+        
+        // 1. Check if this specific ID is already in our storage
+        const exists = data.some(t => t.id === ticket.id);
         let result;
 
-        if (ticket.id) {
-            result = data.map(t => t.id === ticket.id ? { ...ticket, updated: now } : t);
+        if (exists) {
+            // 2. UPDATE: Replace the existing record
+            result = data.map(t => 
+                t.id === ticket.id ? { ...ticket, updated: now } : t
+            );
         } else {
-            result = [...data, { ...ticket, id: Date.now(), created: now, updated: now, status: 'Open' }];
+            // 3. INSERT: Add as a new record
+            // Note: We keep the ticket.id you assigned upstream
+            result = [...data, { 
+                ...ticket, 
+                created: now, 
+                updated: now, 
+                status: ticket.status || 'Open' 
+            }];
         }
         
+        // 4. Persist and Notify
         localStorage.setItem(this.KEY, JSON.stringify(result));
         window.dispatchEvent(new Event('storage')); 
     },

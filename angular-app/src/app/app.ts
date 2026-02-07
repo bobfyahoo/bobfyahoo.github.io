@@ -33,7 +33,7 @@ export class App {
   }
 
   openForm(ticket?: any) {
-    this.formModel.set(ticket ? { ...ticket } : { assignee: '', summary: '', description: '', status: 'Open' });
+    this.formModel.set(ticket ? { ...ticket } : { id: crypto.randomUUID(), assignee: '', summary: '', description: '', status: 'Open' });
     this.view.set('form');
 
     // clear any previous invalid markers

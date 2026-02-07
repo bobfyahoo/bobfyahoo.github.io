@@ -31,7 +31,7 @@ export class TicketService {
       .map((t: any, i: number) => {
         if (t.id != null && t.id !== '') return t;
         changed = true;
-        return { ...t, id: Date.now() + i };
+        return { ...t, id: crypto.randomUUID() + i };
       })
       .filter((t: any) => {
         const key = t.id;
@@ -52,23 +52,42 @@ export class TicketService {
     const storage = this.getStorageApi();
     const raw = JSON.parse(storage.getItem(STORAGE_KEY) || '[]');
     const now = new Date().toLocaleString();
+    
+    // 1. Check if the ticket already exists in our data
+    const exists = raw.some((t: any) => t.id === ticket.id);
+
     let updated: any[];
-    if (ticket.id !== undefined && ticket.id !== null && ticket.id !== '') {
+
+    if (exists) {
+      // 2. UPDATE: Map through and replace the matching ID
       updated = raw.map((t: any) =>
-        t.id === ticket.id || t.id == ticket.id
-          ? { ...ticket, updated: now }
-          : t
+        t.id === ticket.id ? { ...ticket, updated: now } : t
       );
     } else {
-      updated = [...raw, { ...ticket, id: Date.now(), created: now, updated: now, status: ticket.status || 'Open' }];
+      // 3. ADD: It's a new ID, so append it to the array
+      // We ensure created/updated timestamps and default status here
+      const newTicket = { 
+        ...ticket, 
+        created: now, 
+        updated: now, 
+        status: ticket.status || 'Open' 
+      };
+      updated = [...raw, newTicket];
     }
+
+    // 4. Persist and Sync
     storage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    
+    this.triggerStorageSync(); // Cleaned up the event dispatching logic
+    this.tickets.set(updated); // Use the 'updated' array directly for better performance
+  }
+
+  private triggerStorageSync() {
     try {
       window.parent.dispatchEvent(new Event('storage'));
     } catch {
       window.dispatchEvent(new Event('storage'));
     }
-    this.tickets.set(this.getStorage());
   }
 
   delete(id: number) {
