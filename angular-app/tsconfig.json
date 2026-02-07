@@ -3,6 +3,7 @@
   "compilerOptions": {
     /* Maintenance & Safety */
     "strict": true,
+    "forceConsistentCasingInFileNames": true, /* Prevents OS-based import bugs */
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -12,29 +13,25 @@
     
     /* Modern TS 5 + Angular Flags */
     "target": "ES2022",
-    "module": "preserve",
-    "moduleResolution": "bundler",  // Explicitly tell TS 5 to use bundler logic
+    "module": "ESNext", 
+    "moduleResolution": "bundler",
     "useDefineForClassFields": true,
     "importHelpers": true,
     "experimentalDecorators": true, 
 
-    /* Path Aliases - The "Clean Import" trick */
+    /* Path Aliases */
     "baseUrl": "./",
     "paths": {
       "@env/*": ["src/environments/*"],
       "@core/*": ["src/app/core/*"],
-      "@shared/*": ["src/app/shared/*"],
-      "@components/*": ["src/app/components/*"]
+      "@shared/*": ["src/app/shared/*"]
     }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
-    "extendedDiagnostics": {
-      "missingControlFlowDirective": "error" // Catches errors in new @if/@for syntax
-    }
+    "strictTemplates": true
   },
   "files": [],
   "references": [
