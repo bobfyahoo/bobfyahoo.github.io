@@ -46,6 +46,7 @@ const JQueryTab = {
             $('#jq-form').data('editId', '').attr('data-edit-id', '');
             $('#jq-summary').val('');
             $('#jq-description').val('');
+            $
             // default assignee blank, status Open
             $('#jq-assignee').val('');
             $('#jq-status').val('Open');
@@ -87,7 +88,7 @@ const JQueryTab = {
 
         // remove invalid marker on change
         $('#jq-summary').off('input').on('input', function(e){ $(e.currentTarget).removeClass('is-invalid'); });
-        $('#jq-description').off('input').on('input', function(e){ $(e.currentTarget).removeClass('is-invalid'); });
+        $('#jq-description').off('input').on('input', function(e){ $(e.currentTarget).removeClass('is-invalid'); renderPreview(); });
         $('#jq-assignee').off('change').on('change', function(e){ $(e.currentTarget).removeClass('is-invalid'); });
         $('#jq-status').off('change').on('change', function(e){ $(e.currentTarget).removeClass('is-invalid'); });
         
@@ -99,6 +100,7 @@ const JQueryTab = {
             if (!t) return;
             $('#jq-summary').val(t.summary);
             $('#jq-description').val(t.description || '');
+            renderPreview();
             // leave assignee blank if ticket has none
             $('#jq-assignee').val(t.assignee || '');
             $('#jq-status').val(t.status || 'Open');
@@ -128,6 +130,11 @@ const JQueryTab = {
         });
     }
 };
+
+function renderPreview() {
+    const description = String($('#jq-description').val() || '').trim();
+    $('#jq-preview').html(description ? escapeHtml(description).replace(/\n/g, '<br>') : '');
+}
 
 function escapeHtml(unsafe) {
     return unsafe
