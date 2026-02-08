@@ -8,6 +8,12 @@ const VueTab = {
             form: {}
         });
 
+        // Check if the element exists and hasn't been mounted yet
+        const container = document.querySelector('#app')
+        if (container && (container as any).__vue_app__) {
+            (container as any).__vue_app__.unmount();
+        }
+
         const preview = computed(() => marked.parse(state.form.description || ''));
 
         const openForm = (ticket = null) => {
