@@ -3,8 +3,8 @@ import type { Ticket } from "../components/ReactTab";
 const STORAGE_KEY = 'shared_tickets';
 
 export const GlobalStore = {
-  statuses: ['Open', 'In Progress', 'Resolved', 'Closed'],
-  assignees: ['Alice', 'Bob', 'Charlie', 'Unassigned'],
+  assignees: ['Robert', 'Sarah', 'James', 'Elena', 'Hiro', 'Chloe'],
+  statuses: ['Open', 'In-Progress', 'Resolved', 'Re-opened', 'Tested', 'Deployed', 'Closed'],
 
   getStorageApi(): Storage {
     try {
