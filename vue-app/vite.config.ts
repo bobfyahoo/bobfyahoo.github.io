@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  base: './vuevite/', // 1. Ensures all asset paths are relative, which is crucial for iframe embedding
+  base: './', // 1. Ensures all asset paths are relative, which is crucial for iframe embedding
   build: {
       // 2. Helps with CSP: tells Vite NOT to inject the module loader inline
       modulePreload: {
