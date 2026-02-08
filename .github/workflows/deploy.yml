@@ -22,6 +22,20 @@ jobs:
           cd angular-app
           npm install
           npx ng build --base-href ./
+
+          
+      - name: Build ReactVite
+        run: |
+          cd react-app
+          npm install
+          npx ng build --base-href ./
+
+          
+      - name: Build VueVite
+        run: |
+          cd vue-app
+          npm install
+          npx ng build --base-href ./
           
       - name: Assemble Final Site
         run: |
