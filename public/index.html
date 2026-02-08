@@ -46,23 +46,26 @@
     <script src="vue/js/vue-logic.js"></script>
     <script src="jquery/js/jquery-logic.js"></script>
     <script>
-        let vueApp
+        let lastApp;
         const mount = document.getElementById('mount-point');
         function switchTab(name) {
-            if (vueApp) {
+            if (lastApp && lastApp.unmount) {
                 // must do before mount.innerHTML = '' to avoid "app is already mounted" error when switching back to Vue tab
-                vueApp.unmount();
-                vueApp = null;
+                lastApp.unmount();
+                lastApp = null;
             }
             mount.innerHTML = '';
-            if(name === 'react') ReactDOM.createRoot(mount).render(React.createElement(ReactTab));
+            if(name === 'react') {
+                lastApp = ReactDOM.createRoot(mount)
+                lastApp.render(React.createElement(ReactTab));
+            }
             if(name === 'jquery') JQueryTab.init('#mount-point');
             if(name === 'angular') mount.innerHTML = `<iframe src="./angular/index.html" style="width:100%; height:600px; border:none;"></iframe>`;
             if(name === 'reactvite') mount.innerHTML = `<iframe src="./react.html" style="width:100%; height:600px; border:none;"></iframe>`;
             if(name === 'vuevite') mount.innerHTML = `<iframe src="./vue.html" style="width:100%; height:600px; border:none;"></iframe>`;
             if(name === 'vue') {
-                vueApp = Vue.createApp(VueTab);
-                vueApp.mount(mount);
+                lastApp = Vue.createApp(VueTab);
+                lastApp.mount(mount);
             }
         }
         document.querySelectorAll('.nav-link').forEach(link => {
