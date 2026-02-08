@@ -1,10 +1,10 @@
-import { createApp } from 'vue'
-import './style.css'
+import { createApp, type App as VueApp } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'
+import './style.css'
 
 const pinia = createPinia();
-const app = createApp(App).use(pinia).mount('#app');
+const app: VueApp = createApp(App).use(pinia);
 const container = document.querySelector('#app')
 
 // Check if the element exists and hasn't been mounted yet
