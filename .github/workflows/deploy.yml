@@ -28,14 +28,14 @@ jobs:
         run: |
           cd react-app
           npm install
-          npx ng build --base-href ./
+          npm run build
 
           
       - name: Build VueVite
         run: |
           cd vue-app
           npm install
-          npx ng build --base-href ./
+          npx run build
           
       - name: Assemble Final Site
         run: |
