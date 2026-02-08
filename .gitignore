@@ -6,6 +6,9 @@ tmp
 out-tsc
 bazel-out
 
+/public/vuevite/
+/public/reactvite/
+
 # Node
 node_modules
 npm-debug.log
