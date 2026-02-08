@@ -1,4 +1,4 @@
-<form v-else @submit.prevent="save">
+<form v-if="state.view === 'form'" @submit.prevent="save" class="w-100">
     <div class="mb-2">
         <label for="summaryInput" class="form-label"><strong>Summary</strong></label>
         <input id="summaryInput" v-model="state.form.summary" class="form-control" maxlength="50" required>
