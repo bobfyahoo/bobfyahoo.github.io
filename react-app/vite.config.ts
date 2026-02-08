@@ -14,9 +14,6 @@ export default defineConfig({
       assetsInlineLimit: 0,
       // 3. Ensures CSS is its own file and not injected as a script string
       cssCodeSplit: true,
-      // This will build directly into a folder the parent index.html can see
-      // Adjust '../../react-bin' to point to your desired deployment folder
-      outDir: '../public/reactvite', 
       emptyOutDir: true, // Clears the old build before creating a new one
     }
 })

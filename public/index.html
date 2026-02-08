@@ -53,8 +53,8 @@
             if(name === 'vue') Vue.createApp(VueTab).mount(mount);
             if(name === 'jquery') JQueryTab.init('#mount-point');
             if(name === 'angular') mount.innerHTML = `<iframe src="./angular/index.html" style="width:100%; height:600px; border:none;"></iframe>`;
-            if(name === 'reactvite') mount.innerHTML = `<iframe src="./reactvite/index.html" style="width:100%; height:600px; border:none;"></iframe>`;
-            if(name === 'vuevite') mount.innerHTML = `<iframe src="./vuevite/index.html" style="width:100%; height:600px; border:none;"></iframe>`;
+            if(name === 'reactvite') mount.innerHTML = `<iframe src="./react.html" style="width:100%; height:600px; border:none;"></iframe>`;
+            if(name === 'vuevite') mount.innerHTML = `<iframe src="./vue.html" style="width:100%; height:600px; border:none;"></iframe>`;
         }
         document.querySelectorAll('.nav-link').forEach(link => {
             link.onclick = (e) => {

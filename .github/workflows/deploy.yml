@@ -44,6 +44,10 @@ jobs:
           cp -r public/* final_dist/
           # 2. Copy the Angular build into the /angular subfolder
           cp -r angular-app/dist/angular-app/browser/* final_dist/angular/
+          cp -r react-app/dist/assets final_dist
+          cp -r react-app/dist/index.html final_dist/react.html
+          cp -r vue-app/dist/assets final_dist
+          cp -r vue-app/dist/index.html final_dist/vue.html
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
