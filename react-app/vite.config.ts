@@ -16,7 +16,7 @@ export default defineConfig({
       cssCodeSplit: true,
       // This will build directly into a folder the parent index.html can see
       // Adjust '../../react-bin' to point to your desired deployment folder
-      outDir: '../reactvite', 
+      outDir: '../public/reactvite', 
       emptyOutDir: true, // Clears the old build before creating a new one
     }
 })
