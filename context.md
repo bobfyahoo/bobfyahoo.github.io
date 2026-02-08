@@ -24,6 +24,8 @@ assignee will be a dropdown with these names: Robert, 5 others of your choice. I
 
 created is assigned when saved, updated is assigned when edited.
 
+always put braces on a statement e.g. if, while, etc.. even if it only has one statement in the body
+
 
 
 

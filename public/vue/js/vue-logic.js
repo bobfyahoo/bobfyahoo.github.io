@@ -1,13 +1,5 @@
 const { reactive, computed } = Vue;
 
-const unmountVue = () => {
-    // Check if the element exists and hasn't been mounted yet
-    const container = document.querySelector('#app')
-    if (container && container.__vue_app__) {
-        Vue.unmount(container);
-    }
-}
-
 const VueTab = {
     setup() {
         const state = reactive({
