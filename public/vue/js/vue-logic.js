@@ -1,5 +1,13 @@
 const { reactive, computed } = Vue;
 
+const unmountVue = () => {
+    // Check if the element exists and hasn't been mounted yet
+    const container = document.querySelector('#app')
+    if (container && container.__vue_app__) {
+        Vue.unmount(container);
+    }
+}
+
 const VueTab = {
     setup() {
         const state = reactive({
@@ -7,12 +15,6 @@ const VueTab = {
             view: 'list',
             form: {}
         });
-
-        // Check if the element exists and hasn't been mounted yet
-        const container = document.querySelector('#app')
-        if (container && container.__vue_app__) {
-            container.__vue_app__.unmount();
-        }
 
         const preview = computed(() => marked.parse(state.form.description || ''));
 
