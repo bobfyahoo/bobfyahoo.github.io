@@ -14,6 +14,7 @@ export function useTicketUtil() {
   const saveTicket = (form: Ticket) => {
     GlobalStore.saveTicket(form);
     ticketStore.refreshTickets();
+    ticketStore.openList();
   };
 
   const confirmDelete = (id: string) => {

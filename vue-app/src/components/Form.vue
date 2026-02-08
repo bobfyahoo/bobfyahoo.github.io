@@ -1,32 +1,46 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useTicketUtil } from '../composable/ticketUtil';
 import { useTicketStore } from '../store/ticketStore';
+import { AssigneeConst } from '../types/AssigneeConst';
 import { StatusConst } from '../types/StatusConst';
+import { marked } from "marked";
 
 const ticketUtil = useTicketUtil();
 const ticketStore = useTicketStore();
+
+const preview = computed(() => {
+  const content = ticketStore.form?.description || '';
+  return marked.parse(content); 
+});
 </script>
 
 <template>
-    <div>
-        <button class="btn btn-primary mb-3" @click="ticketStore.openForm()">Add Ticket (Vue)</button>
-        <table class="table align-middle">
-            <thead><tr><th>Summary</th><th>Assignee</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody>
-            <tr v-for="t in ticketStore.tickets" :key="t.id">
-                <td>{{t.summary}}</td>
-                <td>{{t.assignee}}</td>
-                <td>
-                <select class="form-select form-select-sm d-inline-block w-auto" :value="t.status" @change="ticketUtil.changeStatus(t, ($event?.target as HTMLSelectElement)?.value)">
-                    <option v-for="s in StatusConst.keys" :key="s" :value="s">{{ s }}</option>
-                </select>
-                </td>
-                <td>
-                <button class="btn btn-sm btn-link" @click="ticketStore.openForm(t)">Edit</button>
-                <button class="btn btn-sm btn-link text-danger" @click="ticketUtil.confirmDelete(t.id)">Delete</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<form v-if="ticketStore.view === 'form' && ticketStore.form" @submit.prevent="ticketUtil.saveTicket(ticketStore.form!)" >
+    <div class="mb-2">
+        <label for="summaryInput" class="form-label"><strong>Summary</strong></label>
+        <input id="summaryInput" v-model="ticketStore.form!.summary" class="form-control" maxlength="50" required>
     </div>
+    <div class="mb-2">
+        <label for="descriptionInput" class="form-label"><strong>Description</strong></label>
+        <textarea id="descriptionInput" v-model="ticketStore.form!.description" class="form-control" maxlength="500" required></textarea>
+    </div>
+    <div class="rich-preview mb-2" v-html="preview"></div>
+    <div class="mb-3">
+        <label for="assigneeSelect" class="form-label"><strong>Assignee</strong></label>
+        <select id="assigneeSelect" v-model="ticketStore.form!.assignee" class="form-select" required>
+            <option value="">Select assignee</option>
+            <option v-for="(name, key) in AssigneeConst" :key="key" :value="name">{{name}}</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="statusSelect" class="form-label"><strong>Status</strong></label>
+        <select id="statusSelect" v-model="ticketStore.form!.status" class="form-select" required>
+            <option v-for="(name, key) in StatusConst" :key="key" :value="name">{{name}}</option>
+        </select>
+    </div>
+    <button class="btn btn-success me-2">Save</button>
+    <button type="button" class="btn btn-light" @click="ticketStore.openList">Cancel</button>
+</form>
+
 </template>

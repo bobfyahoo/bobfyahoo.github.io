@@ -18,7 +18,7 @@ const ticketStore = useTicketStore();
                 <td>{{t.assignee}}</td>
                 <td>
                 <select class="form-select form-select-sm d-inline-block w-auto" :value="t.status" @change="ticketUtil.changeStatus(t, ($event?.target as HTMLSelectElement)?.value)">
-                    <option v-for="s in StatusConst.keys" :key="s" :value="s">{{ s }}</option>
+                    <option v-for="(name, key) in StatusConst" :key="key" :value="name">{{name}}</option>
                 </select>
                 </td>
                 <td>
