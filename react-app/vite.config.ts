@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react-swc'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: 'reactvite/', // 1. Ensures all asset paths are relative, which is crucial for iframe embedding
+  base: './reactvite/', // 1. Ensures all asset paths are relative, which is crucial for iframe embedding
   build: {
       // 2. Helps with CSP: tells Vite NOT to inject the module loader inline
       modulePreload: {
