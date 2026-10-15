@@ -1,3 +1,9 @@
+## deployment details
+### bobfyahoo.github.io/bobfyahoo
+### bikehike.github.io/bikehike
+### [render](https://dashboard.render.com/) as bikehike@yahoo.com
+
+
 ## npm scripts
 * angular-app start
     * angular http://localhost:4200 

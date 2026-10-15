@@ -6,22 +6,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const responseContainer = document.getElementById("chatbotResponse");
   const lengthCounter = document.getElementById("chatbotLength");
 
+  function appendMarkdownText(text) {
+    const message = document.createElement("div");
+    message.className = "chat-message mt-3";
+    message.innerHTML = DOMPurify.sanitize(marked.parse(text));
+    responseContainer.appendChild(message);
+  }
+
   if (!questionInput || !askButton || !responseContainer) { 
     console.error("Chatbot HTML elements were not found."); 
     return; 
   }
 
   async function askChatbot() {
-    const question = questionInput.value.trim();
+    const question = questionInput.value.trim();    
 
-    if (!question) { 
-      responseContainer.textContent = "Please enter a question."; 
+    if (!question || !questionInput.validity.valid) { 
+      appendMarkdownText(`Please enter a valid question.`);
       return; 
     }
 
     askButton.disabled = true; 
     responseContainer.classList.remove("d-none");
-    responseContainer.textContent = "Thinking...";
+    appendMarkdownText(`Thinking...`);
 
     try {
       const response = await fetch(API_URL, 
@@ -41,12 +48,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // textContent displays the answer as text, not executable HTML. 
-      responseContainer.innerHTML = marked.parse(data.answer);
+      appendMarkdownText(`${data.answer}`);
+      questionInput.value = "";
+      lengthCounter.textContent = "0";
 
     } catch (error) {
       console.error("Chatbot request error:", error);
 
-      responseContainer.textContent = "Sorry, the chatbot is temporarily unavailable. Please try again.";
+      appendMarkdownText(`Sorry, the chatbot is temporarily unavailable. Please try again.`);
     } finally { 
       askButton.disabled = false; 
     }
