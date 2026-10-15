@@ -22,7 +22,7 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "nvidia/nemotron-3-embed-1b")
 
 FRONTEND_ORIGIN = os.getenv(
     "FRONTEND_ORIGIN",
-    "https://bobfyahoo.github.io,http://localhost:8080,"
+    "https://www.bobferrero.com,https://www.oygavult.com,http://localhost:8080,"
     "http://127.0.0.1:8080",
 )
 
@@ -133,7 +133,7 @@ class ChatRequest(BaseModel):
     message: str = Field(
         ...,
         min_length=1,
-        max_length=2000,
+        max_length=10000,
         description="The question to ask the portfolio assistant.",
     )
 

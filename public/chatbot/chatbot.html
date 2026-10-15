@@ -17,7 +17,8 @@
             <li>Is this person a good fit for this role (paste job description)?</li>
             <li>Tell me about this website.</li>
         </ul>
-        <textarea id="chatbotQuestion" class="w-100 h-25" placeholder="Please enter a question."></textarea>
+        <textarea id="chatbotQuestion" rows="2" minlength="1" maxlength="10000" class="w-100" placeholder="Please enter a question."></textarea>
+        <div><span id="chatbotLength">0</span> of 10000 max</div>
         <button id="askChatbot" class="btn btn-primary mt-2">Ask Me</button>
         <div id="chatbotResponse" class="rich-preview mt-2 text-pre-wrap d-none"></div>
     </div>

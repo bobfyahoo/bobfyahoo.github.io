@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const questionInput = document.getElementById("chatbotQuestion"); 
   const askButton = document.getElementById("askChatbot"); 
   const responseContainer = document.getElementById("chatbotResponse");
+  const lengthCounter = document.getElementById("chatbotLength");
 
   if (!questionInput || !askButton || !responseContainer) { 
     console.error("Chatbot HTML elements were not found."); 
@@ -53,11 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   askButton.addEventListener("click", askChatbot);
 
-  questionInput.addEventListener("keydown", 
-    (event) => { 
-      if (event.key === "Enter" && !event.shiftKey) { 
-        event.preventDefault(); 
-        askChatbot(); 
-      } 
-    });
+  questionInput.addEventListener("input", () => {
+    lengthCounter.textContent = questionInput.value.length;
+  });
+
 });
