@@ -14,7 +14,8 @@
 <body class="bg-light">
     <div class="container py-5">
         <ul class="nav nav-tabs" id="frameworkTabs">
-            <li class="nav-item"><a class="nav-link active" data-framework="react">React</a></li>
+            <li class="nav-item"><a class="nav-link active" data-framework="chatbot">Chatbot</a></li>
+            <li class="nav-item"><a class="nav-link" data-framework="react">React</a></li>
             <li class="nav-item"><a class="nav-link" data-framework="reactvite">React Vite</a></li>
             <li class="nav-item"><a class="nav-link" data-framework="angular">Angular 17</a></li>
             <li class="nav-item"><a class="nav-link" data-framework="vue">Vue</a></li>
@@ -40,8 +41,9 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
+    
     <script src="shared-store.js"></script>
+    <script src="chatbot/chatbot-logic.js"></script>
     <script src="react/react-logic.js"></script>
     <script src="vue/js/vue-logic.js"></script>
     <script src="jquery/js/jquery-logic.js"></script>
@@ -67,6 +69,7 @@
                 lastApp = Vue.createApp(VueTab);
                 lastApp.mount(mount);
             }
+            if(name === 'chatbot') mount.innerHTML = `<iframe src="chatbot/chatbot.html" style="width:100%; height:600px; border:none;"></iframe>`;
         }
         document.querySelectorAll('.nav-link').forEach(link => {
             link.onclick = (e) => {
@@ -75,7 +78,8 @@
                 switchTab(e.target.dataset.framework);
             };
         });
-        switchTab('react');
+        switchTab('chatbot');
     </script>
+    <script src="chatbot.js"></script>
 </body>
 </html>

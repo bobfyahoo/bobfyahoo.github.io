@@ -9,6 +9,7 @@ cd backend
 python -m venv .venv
 python -m pip install -r requirements.txt
 python -m pip show fastapi langchain langchain-openai uvicorn
+.venv\Scripts\activate.bat
 
 ### to freeze dependencies
 python -m pip freeze > requirements.txt
@@ -24,6 +25,8 @@ python-dotenv
 From your backend/ directory, activate your virtual environment and run:
 
 bash
+cd backend
+.venv\Scripts\activate.bat
 uvicorn main:app --reload --port 8000
 Open 
 http://127.0.0.1:8000/docs 

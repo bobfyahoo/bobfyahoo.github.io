@@ -1,0 +1,63 @@
+const API_URL = "https://bikehike-github-io.onrender.com/chat";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const questionInput = document.getElementById("chatbotQuestion"); 
+  const askButton = document.getElementById("askChatbot"); 
+  const responseContainer = document.getElementById("chatbotResponse");
+
+  if (!questionInput || !askButton || !responseContainer) { 
+    console.error("Chatbot HTML elements were not found."); 
+    return; 
+  }
+
+  async function askChatbot() {
+    const question = questionInput.value.trim();
+
+    if (!question) { 
+      responseContainer.textContent = "Please enter a question."; 
+      return; 
+    }
+
+    askButton.disabled = true; 
+    responseContainer.classList.remove("d-none");
+    responseContainer.textContent = "Thinking...";
+
+    try {
+      const response = await fetch(API_URL, 
+        { method: "POST", 
+          headers: { "Content-Type": "application/json" }, 
+          body: JSON.stringify({ message: question }) 
+        });
+
+      if (!response.ok) { 
+        throw new Error(`Request failed: ${ response.status }`); 
+      }
+
+      const data = await response.json();
+
+      if (typeof data.answer !== "string") { 
+        throw new Error("Unexpected response from the chatbot."); 
+      }
+
+      // textContent displays the answer as text, not executable HTML. 
+      responseContainer.innerHTML = marked.parse(data.answer);
+
+    } catch (error) {
+      console.error("Chatbot request error:", error);
+
+      responseContainer.textContent = "Sorry, the chatbot is temporarily unavailable. Please try again.";
+    } finally { 
+      askButton.disabled = false; 
+    }
+  }
+
+  askButton.addEventListener("click", askChatbot);
+
+  questionInput.addEventListener("keydown", 
+    (event) => { 
+      if (event.key === "Enter" && !event.shiftKey) { 
+        event.preventDefault(); 
+        askChatbot(); 
+      } 
+    });
+});
