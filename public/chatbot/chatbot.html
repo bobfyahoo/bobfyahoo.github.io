@@ -20,5 +20,29 @@
         <button id="askChatbot" class="btn btn-primary mt-2">Ask Me</button>
         <div id="chatbotResponse" class="rich-preview mt-2 text-pre-wrap d-none"></div>
     </div>
+    <script>
+        (() => {
+            const healthUrl = "https://bikehike-github-io.onrender.com/health";
+
+            async function checkHealth() {
+            try {
+                const response = await fetch(healthUrl, {
+                method: "GET",
+                cache: "no-store"
+                });
+
+                console.log(
+                `[Health Check ${new Date().toLocaleTimeString()}]`,
+                response.ok ? "Online" : `HTTP ${response.status}`
+                );
+            } catch (error) {
+                console.error("[Health Check] Failed:", error);
+            }
+            }
+
+            checkHealth(); // Run immediately
+            setInterval(checkHealth, 30_000); // Repeat every 30 seconds
+        })();
+    </script>
 </body>
 </html>
