@@ -13,6 +13,7 @@
 </head>
 <body>
     <div class="container py-3">
+        <div id="server-warning" class="text-warning d-none">Sever backend is a free service on Render and is not up yet. Please wait while it starts.</div>
         <div id="prompt">Ask questions about the author or this website. e.g., 
             <ul>
                 <li>What is your experience with Java and Spring?</li>
@@ -26,6 +27,9 @@
         <button id="askChatbot" class="btn btn-primary mt-2">Ask Me</button>
     </div>
     <script>
+        const button = document.getElementById('askChatbot');
+        const warningDiv = document.getElementById('server-warning');
+
         (() => {
             const healthUrl = "https://bikehike-github-io.onrender.com/health";
 
@@ -40,13 +44,21 @@
                 `[Health Check ${new Date().toLocaleTimeString()}]`,
                 response.ok ? "Online" : `HTTP ${response.status}`
                 );
+
+                if (!response.ok) {
+                    button.disabled = true;
+                    warningDiv.classList.remove("d-none");
+                } else {
+                    button.disabled = false;
+                    warningDiv.classList.add("d-none");
+                }   
             } catch (error) {
                 console.error("[Health Check] Failed:", error);
             }
             }
 
             checkHealth(); // Run immediately
-            setInterval(checkHealth, 30_000); // Repeat every 30 seconds
+            setInterval(checkHealth, 5_000); // Repeat every 5 seconds
         })();
     </script>
 </body>

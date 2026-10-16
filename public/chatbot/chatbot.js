@@ -66,5 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
   questionInput.addEventListener("input", () => {
     lengthCounter.textContent = questionInput.value.length;
   });
+  
 
 });
