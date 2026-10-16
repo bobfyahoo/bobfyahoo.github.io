@@ -18,7 +18,7 @@ load_dotenv(BASE_DIR / ".env")
 
 # Configuration
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "nvidia/nemotron-3-embed-1b")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "nemotron-3.5-lightning-30b-a3b")
 
 FRONTEND_ORIGIN = os.getenv(
     "FRONTEND_ORIGIN",
