@@ -17,6 +17,17 @@ BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR / ".env")
 
 # ... [keep your FastAPI app setup, CORS, and load_knowledge() functions] ...
+FRONTEND_ORIGIN = os.getenv(
+    "FRONTEND_ORIGIN",
+    "https://www.bobferrero.com,https://www.oygavult.com,http://localhost:8080,"
+    "http://127.0.0.1:8080",
+)
+
+ALLOWED_ORIGINS = [
+    origin.strip().rstrip("/")
+    for origin in FRONTEND_ORIGIN.split(",")
+    if origin.strip()
+]
 
 # Initialize the official Gemini client
 # It automatically reads GEMINI_API_KEY from the environment
@@ -44,6 +55,14 @@ app = FastAPI(
     title="AI Portfolio Chatbot",
     description="Answers questions about professional experience and projects.",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
 )
 
 # Knowledge files
