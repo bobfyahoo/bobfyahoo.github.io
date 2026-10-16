@@ -1,11 +1,19 @@
 name: Deploy Polyglot Site
+
 on:
   push:
     branches: [master]
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,26 +31,22 @@ jobs:
           npm install
           npx ng build --base-href ./
 
-          
       - name: Build ReactVite
         run: |
           cd react-app
           npm install
           npm run build
 
-          
       - name: Build VueVite
         run: |
           cd vue-app
           npm install
           npm run build
-          
+
       - name: Assemble Final Site
         run: |
           mkdir -p final_dist/angular
-          # 1. Copy everything from public into the root of the final folder
           cp -r public/* final_dist/
-          # 2. Copy the Angular build into the /angular subfolder
           cp -r angular-app/dist/angular-app/browser/* final_dist/angular/
           cp -r react-app/dist/assets final_dist
           cp -r react-app/dist/index.html final_dist/react.html
@@ -52,8 +56,15 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # This must point to the folder containing your ROOT index.html
           path: final_dist
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
